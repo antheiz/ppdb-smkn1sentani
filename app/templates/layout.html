@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link href="{{ url_for('static', filename='img/logo/logo.png') }}" rel="icon">
+    <title>RuangAdmin - Dashboard</title>
+    {% block styles %}
+    
+    {% endblock %}
+</head>
+
+<body id="page-top">
+    <div id="wrapper">
+        <!-- Sidebar -->
+        {% include 'snippets/sidebar.html' %}
+
+        <div id="content-wrapper" class="d-flex flex-column">
+            <div id="content">
+                <!-- Topbar -->
+                {% include 'snippets/topbar.html' %}
+
+                <!-- Container Fluid-->
+                <div class="container-fluid" id="container-wrapper">
+                    
+                    <!-- Content -->
+                    {% block content %}
+                    
+                    {% endblock %}
+
+                </div>
+                <!---Container Fluid-->
+            </div>
+            <!-- Footer -->
+            <footer class="sticky-footer bg-white">
+                <div class="container my-auto">
+                    <div class="copyright text-center my-auto">
+                        <span>Copyright &copy; <script>
+                                document.write(new Date().getFullYear());
+                            </script> - SMK Negeri 1 Sentani<br><br> Design Support by
+                            <b><a href="https://indrijunanda.gitlab.io/" target="_blank">indrijunanda</a></b>
+                        </span>
+                    </div>
+                </div>
+            </footer>
+            <!-- Footer -->
+        </div>
+    </div>
+
+    <!-- Scroll to top -->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+
+    {% block scripts %}
+    
+    {% endblock %}
+</body>
+
+</html>
