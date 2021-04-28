@@ -1,10 +1,11 @@
 from app import app 
 from flask import render_template
 
-@app.route('/')
+@app.route('/dashboard')
 def home():
    return render_template('index.html', title='Home')
 
+@app.route('/')
 @app.route('/masuk')
 def login():
    return render_template('login.html')
