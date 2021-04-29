@@ -30,70 +30,58 @@
                     <img src="{{ url_for('static', filename='img/logo/logo_smkn1sentani.png') }}" width="150px" class="mb-2" alt="">
                     <h1 class="h4 text-gray-900 mb-4">Daftar Akun</h1>
                   </div>
-                  <form>
+                  <form method="POST">
+                    {{ form.hidden_tag() }}
                     <div class="form-group">
-                      <b><label>Nama Depan</label></b>
-                      {% if form.nama_depan.errors %}
-                      {{ form.nama_depan(class='form-control is-invalid input_user', id='exampleInputFirstName', placeholder='Masukan nama depan') }}
+                      <b><label>Nama Lengkap</label></b>
+                      {% if form.nama_lengkap.errors %}
+                      {{ form.nama_lengkap(class='form-control is-invalid input_user', id='exampleInputFirstName', placeholder='Masukan nama lengkap', autocomplete='off') }}
                       <div class="text-center invalid-feedback">
-                          {% for error in form.nama_depan.errors %}
+                          {% for error in form.nama_lengkap.errors %}
                           {{error}}
                           {% endfor %}
                       </div>
                       {% else %}
-                      {{ form.nama_depan(class='form-control input_user', id='exampleInputFirstName', placeholder='Masukan nama depan') }}
-                      {% endif %}
-                    </div>
-                    <div class="form-group">
-                      <b><label>Nama Belakang</label></b>
-                      {% if form.nama_belakang.errors %}
-                      {{ form.nama_belakang(class='form-control is-invalid input_user', id='exampleInputLastName', placeholder='Masukan nama belakang') }}
-                      <div class="text-center invalid-feedback">
-                          {% for error in form.nama_belakang.errors %}
-                          {{error}}
-                          {% endfor %}
-                      </div>
-                      {% else %}
-                      {{ form.nama_belakang(class='form-control input_user', id='exampleInputLastName', placeholder='Masukan nama belakang') }}
+                      {{ form.nama_lengkap(class='form-control input_user', id='exampleInputFirstName', placeholder='Masukan nama lengkap', autocomplete='off') }}
                       {% endif %}
                     </div>
                     <div class="form-group">
                       <b><label>Email</label></b>
                       {% if form.email.errors %}
-                      {{ form.email(class='form-control is-invalid input_user', id='exampleInputEmail', placeholder='Masukan alamat email') }}
+                      {{ form.email(class='form-control is-invalid input_user', id='exampleInputEmail', placeholder='Masukan alamat email', autocomplete='off') }}
                       <div class="text-center invalid-feedback">
                           {% for error in form.email.errors %}
                           {{error}}
                           {% endfor %}
                       </div>
                       {% else %}
-                      {{ form.email(class='form-control input_user', id='exampleInputEmail', placeholder='Masukan alamat email') }}
+                      {{ form.email(class='form-control input_user', id='exampleInputEmail', placeholder='Masukan alamat email', autocomplete='off') }}
                       {% endif %}
                     </div>
                     <div class="form-group">
                       <b><label>Kata Sandi</label></b>
                       {% if form.kata_sandi.errors %}
-                      {{ form.kata_sandi(class='form-control is-invalid input_user', id='exampleInputPassword', placeholder='Masukan kata sandi') }}
+                      {{ form.kata_sandi(class='form-control is-invalid input_user', id='exampleInputPassword', placeholder='Masukan kata sandi', autocomplete='off') }}
                       <div class="text-center invalid-feedback">
                           {% for error in form.kata_sandi.errors %}
                           {{error}}
                           {% endfor %}
                       </div>
                       {% else %}
-                      {{ form.kata_sandi(class='form-control input_user', id='exampleInputPassword', placeholder='Masukan kata sandi') }}
+                      {{ form.kata_sandi(class='form-control input_user', id='exampleInputPassword', placeholder='Masukan kata sandi', autocomplete='off') }}
                       {% endif %}
                     </div>
                     <div class="form-group">
                       <b><label>Ulangi Kata Sandi</label></b>
                       {% if form.ulangi_katasandi.errors %}
-                      {{ form.ulangi_katasandi(class='form-control is-invalid input_user', id='exampleInputPasswordRepeat', placeholder='Masukan kata sandi') }}
+                      {{ form.ulangi_katasandi(class='form-control is-invalid input_user', id='exampleInputPasswordRepeat', placeholder='Masukan kata sandi', autocomplete='off') }}
                       <div class="text-center invalid-feedback">
                           {% for error in form.ulangi_katasandi.errors %}
                           {{error}}
                           {% endfor %}
                       </div>
                       {% else %}
-                      {{ form.ulangi_katasandi(class='form-control input_user', id='exampleInputPasswordRepeat', placeholder='Masukan kata sandi') }}
+                      {{ form.ulangi_katasandi(class='form-control input_user', id='exampleInputPasswordRepeat', placeholder='Masukan kata sandi', autocomplete='off') }}
                       {% endif %}
                     </div>
                     <div class="form-group">

@@ -29,8 +29,19 @@
                   <div class="text-center">
                     <img src="{{ url_for('static', filename='img/logo/logo_smkn1sentani.png') }}" width="150px" class="mb-2" alt="">
                     <h1 class="h4 text-gray-900 mb-4">Masuk</h1>
+                    {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                      {% for category, message in messages %}
+                        <div class="text-{{ category }}">
+                          <b>{{ message|safe }}</b>
+                        </div>
+                      {% endfor %}
+                    {% endif %}
+                    {% endwith %}
+                    <br>
                   </div>
-                  <form class="user">
+                  <form class="user" method="POST">
+                    {{ form.hidden_tag() }}
                     <div class="form-group">
                       {% if form.email.errors %}
                         {{ form.email(class='form-control is-invalid input_user', id='exampleInputEmail', placeholder='Masukan alamat email') }}
