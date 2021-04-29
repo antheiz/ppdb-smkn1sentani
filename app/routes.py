@@ -1,5 +1,6 @@
 from app import app 
 from flask import render_template
+from .forms import DaftarAkunForm, MasukAkunForm
 
 @app.route('/dashboard')
 def home():
@@ -8,8 +9,10 @@ def home():
 @app.route('/')
 @app.route('/masuk')
 def login():
-   return render_template('login.html')
+   form = MasukAkunForm()
+   return render_template('login.html', form=form)
 
 @app.route('/daftar')
 def register():
-   return render_template('register.html')
+   form = DaftarAkunForm()
+   return render_template('register.html', form=form)

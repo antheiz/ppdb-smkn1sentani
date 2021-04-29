@@ -33,28 +33,72 @@
                   <form>
                     <div class="form-group">
                       <b><label>Nama Depan</label></b>
-                      <input type="text" class="form-control" id="exampleInputFirstName" placeholder="Masukan nama depan">
+                      {% if form.nama_depan.errors %}
+                      {{ form.nama_depan(class='form-control is-invalid input_user', id='exampleInputFirstName', placeholder='Masukan nama depan') }}
+                      <div class="text-center invalid-feedback">
+                          {% for error in form.nama_depan.errors %}
+                          {{error}}
+                          {% endfor %}
+                      </div>
+                      {% else %}
+                      {{ form.nama_depan(class='form-control input_user', id='exampleInputFirstName', placeholder='Masukan nama depan') }}
+                      {% endif %}
                     </div>
                     <div class="form-group">
                       <b><label>Nama Belakang</label></b>
-                      <input type="text" class="form-control" id="exampleInputLastName" placeholder="Masukan nama belakang">
+                      {% if form.nama_belakang.errors %}
+                      {{ form.nama_belakang(class='form-control is-invalid input_user', id='exampleInputLastName', placeholder='Masukan nama belakang') }}
+                      <div class="text-center invalid-feedback">
+                          {% for error in form.nama_belakang.errors %}
+                          {{error}}
+                          {% endfor %}
+                      </div>
+                      {% else %}
+                      {{ form.nama_belakang(class='form-control input_user', id='exampleInputLastName', placeholder='Masukan nama belakang') }}
+                      {% endif %}
                     </div>
                     <div class="form-group">
                       <b><label>Email</label></b>
-                      <input type="email" class="form-control" id="exampleInputEmail" aria-describedby="emailHelp"
-                        placeholder="Masukan alamat email">
+                      {% if form.email.errors %}
+                      {{ form.email(class='form-control is-invalid input_user', id='exampleInputEmail', placeholder='Masukan alamat email') }}
+                      <div class="text-center invalid-feedback">
+                          {% for error in form.email.errors %}
+                          {{error}}
+                          {% endfor %}
+                      </div>
+                      {% else %}
+                      {{ form.email(class='form-control input_user', id='exampleInputEmail', placeholder='Masukan alamat email') }}
+                      {% endif %}
                     </div>
                     <div class="form-group">
                       <b><label>Kata Sandi</label></b>
-                      <input type="password" class="form-control" id="exampleInputPassword" placeholder="Masukan kata sandi">
+                      {% if form.kata_sandi.errors %}
+                      {{ form.kata_sandi(class='form-control is-invalid input_user', id='exampleInputPassword', placeholder='Masukan kata sandi') }}
+                      <div class="text-center invalid-feedback">
+                          {% for error in form.kata_sandi.errors %}
+                          {{error}}
+                          {% endfor %}
+                      </div>
+                      {% else %}
+                      {{ form.kata_sandi(class='form-control input_user', id='exampleInputPassword', placeholder='Masukan kata sandi') }}
+                      {% endif %}
                     </div>
                     <div class="form-group">
                       <b><label>Ulangi Kata Sandi</label></b>
-                      <input type="password" class="form-control" id="exampleInputPasswordRepeat"
-                        placeholder="Masukan Kata sandi">
+                      {% if form.ulangi_katasandi.errors %}
+                      {{ form.ulangi_katasandi(class='form-control is-invalid input_user', id='exampleInputPasswordRepeat', placeholder='Masukan kata sandi') }}
+                      <div class="text-center invalid-feedback">
+                          {% for error in form.ulangi_katasandi.errors %}
+                          {{error}}
+                          {% endfor %}
+                      </div>
+                      {% else %}
+                      {{ form.ulangi_katasandi(class='form-control input_user', id='exampleInputPasswordRepeat', placeholder='Masukan kata sandi') }}
+                      {% endif %}
                     </div>
                     <div class="form-group">
-                      <button type="submit" class="btn btn-primary btn-block">Daftar</button>
+                      {{ form.daftar(class='btn btn-primary btn-block') }}
+                      <!-- <button type="submit" class="btn btn-primary btn-block">Daftar</button> -->
                     </div>
                     <hr>
                     <p class="text-center">SMK Negeri 1 Sentani</p>

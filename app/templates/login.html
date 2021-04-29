@@ -32,11 +32,28 @@
                   </div>
                   <form class="user">
                     <div class="form-group">
-                      <input type="email" class="form-control" id="exampleInputEmail" aria-describedby="emailHelp"
-                        placeholder="Masukan alamat email">
+                      {% if form.email.errors %}
+                        {{ form.email(class='form-control is-invalid input_user', id='exampleInputEmail', placeholder='Masukan alamat email') }}
+                        <div class="text-center invalid-feedback">
+                            {% for error in form.email.errors %}
+                            {{error}}
+                            {% endfor %}
+                        </div>
+                      {% else %}
+                          {{ form.email(class='form-control input_user', id='exampleInputEmail', placeholder='Masukan alamat email') }}
+                      {% endif %}
                     </div>
                     <div class="form-group">
-                      <input type="password" class="form-control" id="exampleInputPassword" placeholder="Masukan kata sandi">
+                      {% if form.kata_sandi.errors %}
+                        {{ form.kata_sandi(class='form-control is-invalid input_user', id='exampleInputPassword', placeholder='Masukan kata sandi') }}
+                        <div class="text-center invalid-feedback">
+                            {% for error in form.kata_sandi.errors %}
+                            {{error}}
+                            {% endfor %}
+                        </div>
+                      {% else %}
+                          {{ form.kata_sandi(class='form-control input_user', id='exampleInputPassword', placeholder='Masukan kata sandi') }}
+                      {% endif %}
                     </div>
                     <div class="form-group">
                       <div class="custom-control custom-checkbox small" style="line-height: 1.5rem;">
@@ -47,7 +64,7 @@
                       </div>
                     </div>
                     <div class="form-group">
-                      <a href="{{ url_for('home') }}" class="btn btn-primary btn-block">Masuk</a>
+                      {{ form.masuk(class='btn btn-primary btn-block') }}
                     </div>
                     <hr>
                     <p class="text-center">SMK Negeri 1 Sentani</p>
