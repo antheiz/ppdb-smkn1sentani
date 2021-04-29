@@ -8,8 +8,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="">
   <meta name="author" content="">
-  <link href="{{ url_for('static', filename='img/logo/logo.png') }}" rel="icon">
-  <title>RuangAdmin - Register</title>
+  <meta name="generator" content="Site Kit by Google 1.31.0" /><meta property="fb:app_id" content="698365367483443" /><link rel="icon" href="{{url_for('static', filename='img/favicon/cropped-smkn1sentani-besar-32x32.png')}}" sizes="32x32" />
+    <link rel="icon" href="{{url_for('static', filename='img/favicon/cropped-smkn1sentani-besar-192x192.png')}}" sizes="192x192" />
+    <link rel="apple-touch-icon" href="{{url_for('static', filename='img/favicon/cropped-smkn1sentani-besar-180x180.png')}}" />
+    <meta name="msapplication-TileImage" content="{{url_for('static', filename='img/favicon/cropped-smkn1sentani-besar-270x270.png')}}" />
+  <title>{{ title }} | SMK Negeri 1 Sentani</title>
   <link href="{{ url_for('static', filename='vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">
   <link href="{{ url_for('static', filename='vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css">
   <link href="{{ url_for('static', filename='css/ruang-admin.min.css') }}" rel="stylesheet">
@@ -72,7 +75,7 @@
                       {% endif %}
                     </div>
                     <div class="form-group">
-                      <b><label>Ulangi Kata Sandi</label></b>
+                      <b><label>Konfirmasi Kata Sandi</label></b>
                       {% if form.ulangi_katasandi.errors %}
                       {{ form.ulangi_katasandi(class='form-control is-invalid input_user', id='exampleInputPasswordRepeat', placeholder='Masukan kata sandi', autocomplete='off') }}
                       <div class="text-center invalid-feedback">

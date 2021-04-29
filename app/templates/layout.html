@@ -7,8 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-    <link href="{{ url_for('static', filename='img/logo/logo.png') }}" rel="icon">
-    <title>RuangAdmin - Dashboard</title>
+    <meta name="generator" content="Site Kit by Google 1.31.0" /><meta property="fb:app_id" content="698365367483443" /><link rel="icon" href="{{url_for('static', filename='img/favicon/cropped-smkn1sentani-besar-32x32.png')}}" sizes="32x32" />
+    <link rel="icon" href="{{url_for('static', filename='img/favicon/cropped-smkn1sentani-besar-192x192.png')}}" sizes="192x192" />
+    <link rel="apple-touch-icon" href="{{url_for('static', filename='img/favicon/cropped-smkn1sentani-besar-180x180.png')}}" />
+    <meta name="msapplication-TileImage" content="{{url_for('static', filename='img/favicon/cropped-smkn1sentani-besar-270x270.png')}}" />
+    <title>{{ title }} | SMK Negeri 1 Sentani</title>
     {% block styles %}
     
     {% endblock %}
@@ -42,7 +45,7 @@
                         <span>Copyright &copy; <script>
                                 document.write(new Date().getFullYear());
                             </script> - SMK Negeri 1 Sentani<br><br> Design Support by
-                            <b><a href="https://indrijunanda.gitlab.io/" target="_blank">indrijunanda</a></b>
+                            <b><a href="https://github.com/indrijunanda/RuangAdmin" target="_blank">RuangAdmin</a></b>
                         </span>
                     </div>
                 </div>

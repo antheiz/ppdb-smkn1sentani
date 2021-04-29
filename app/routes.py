@@ -8,7 +8,7 @@ from flask_login import login_user, current_user, logout_user, login_required
 @login_required
 def home():
    foto_profil = url_for('static', filename='img/foto-profil/' + current_user.foto_profil)
-   return render_template('index.html', title='Home', foto_profil=foto_profil)
+   return render_template('index.html', title='PPDB', foto_profil=foto_profil)
 
 @app.route('/', methods=['GET','POST'])
 @app.route('/masuk', methods=['GET','POST'])
@@ -24,7 +24,7 @@ def login():
             return redirect(next_page) if next_page else redirect(url_for('home'))
         else:
             flash('Email atau kata sandi salah <br> Silahkan periksa kembali','danger')
-   return render_template('login.html', form=form)
+   return render_template('login.html', title='Login', form=form)
 
 @app.route('/daftar', methods=['GET','POST'])
 def register():
@@ -38,7 +38,7 @@ def register():
       db.session.commit()
       flash('Akun berhasil dibuat. Silahkan login', 'success')
       return redirect(url_for('login'))
-   return render_template('register.html', form=form)
+   return render_template('register.html', title='Register', form=form)
 
 
 @app.route('/logout')
