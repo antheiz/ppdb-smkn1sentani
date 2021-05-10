@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, IntegerField, PasswordField, SubmitField, BooleanField, RadioField
+from wtforms import StringField, IntegerField, PasswordField, SubmitField, BooleanField, RadioField, SelectField
 from wtforms.validators import DataRequired, Email, EqualTo, Length, ValidationError
 from .models import AkunPengguna
 
@@ -28,8 +28,37 @@ JK = [
     'Perempuan'
 ]
 
+JR = [
+    'Teknik Komputer dan Jaringan',
+    'Teknik Audio Vidio',
+    'Teknik Instalasi Tenaga Listrik',
+    'Teknik Elektronika Industri',
+    'Teknik Kendaraan Ringan',
+    'Bisnis Kontruksi dan Properti',
+    'Teknik Pengelasan',
+    'Teknik dan Bisnis Sepeda Motor',
+    'Desain Pemodelan dan Informasi Bangunan'
+]
+
+AG = [
+    'Kristen',
+    'Katolik',
+    'Islam',
+    'Budha',
+    'Hindu'
+]
+
+SK = [
+    'Orang Asli Papua (OAP)',
+    'Non Orang Asli Papua (NON OAP)'
+]
+
 class BiodataSiswaForm(FlaskForm):
-    nisn = StringField('nisn', validators=[DataRequired(), Length(min=10, message='NISN tidak sesuai, silahkan periksa kembali')])
+    nisn = StringField('nisn', validators=[DataRequired(), Length(min=10, message='NISN tidak sesuai. Minimal 10 huruf, silahkan periksa kembali')])
     nama_lengkap = StringField('nama_lengkap', validators=[DataRequired(), Length(max=25, message='Nama lengkap tidak sesuai, Silahkan periksa kembali')])
     jenis_kelamin = RadioField('jenis_kelamin', choices=JK)
+    agama = SelectField('agama', choices=AG)
+    asal_smp = StringField('asal_smp', validators=[DataRequired(), Length(max=25, message='Asal SMP tidak sesuai, Silahkan periksa kembali')])
+    pilihan_jurusan = SelectField('pilihan_jurusan', choices=JR)
+    status_suku = RadioField('status_suku', choices=SK)
     simpan = SubmitField('Simpan')

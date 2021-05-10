@@ -48,6 +48,7 @@ def logout():
 
 
 @app.route('/biodata', methods=['GET','POST'])
+@login_required
 def biodata():
    form = BiodataSiswaForm()
    if form.validate_on_submit():
@@ -55,11 +56,11 @@ def biodata():
       db.session.add(biodata)
       db.session.commit()
       flash('Biodata berhasil disimpan','success')
-      return redirect(url_for('edit_biodata'))
+      return redirect(url_for('edit_biodata', id=biodata.id))
    return render_template('data_siswa/biodata.html', title='Biodata', page='Biodata', form=form)
 
 
-@app.route('/biodata/<int:id>', methods=['GET','POST'])
+@app.route('/biodata/<id>', methods=['GET','POST'])
 @login_required
 def edit_biodata(id):
       data = BiodataSiswa.query.get_or_404(id)
@@ -70,7 +71,7 @@ def edit_biodata(id):
          data.jenis_kelamin = form.jenis_kelamin.data    
          db.session.commit()
          flash('Biodata berhasil diupdate','success')
-         return redirect(url_for('edit_biodata'))
+         return redirect(url_for('edit_biodata', id=1))
       else:
          form.nisn.data = data.nisn
          form.nama_lengkap.data = data.nama_lengkap
