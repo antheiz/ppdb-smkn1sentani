@@ -1,0 +1,134 @@
+{% extends './layout.html' %}
+
+{% block styles %}
+<link href="{{ url_for('static', filename='vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet"
+    type="text/css">
+<link href="{{ url_for('static', filename='vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet"
+    type="text/css">
+<link href="{{ url_for('static', filename='css/ruang-admin.min.css') }}" rel="stylesheet">
+<style>
+    ul { 
+        list-style-type: none; 
+        padding: 0;
+        margin: 0;
+    }
+</style>
+{% endblock %}
+
+
+{% block content %}
+<div class="col-lg-12">
+    <!-- General Element -->
+    <div class="card mb-4">
+        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+            <h6 class="m-0 font-weight-bold text-primary">Lengkapi Biodata</h6>
+            {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+              {% for category, message in messages %}
+                <div class="alert alert-{{ category }}">
+                  <b>{{ message|safe }}</b>
+                <button type="button" class="close text-right ml-2" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                </div>
+              {% endfor %}
+            {% endif %}
+            {% endwith %}
+        </div>
+        <div class="card-body">
+            <form method="POST">
+                {{ form.hidden_tag() }}
+                <div class="form-group">
+                    <b><label for="exampleFormControlInput1">NISN</label></b>
+                    {% if form.nisn.errors %}
+                        {{ form.nisn(class='form-control is-invalid input_user', id='exampleFormControlInput1', placeholder='Masukan nomor NISN', autocomplete='off') }}
+                        <div class="text-center invalid-feedback">
+                            {% for error in form.nisn.errors %}
+                                {{error}}
+                            {% endfor %}
+                        </div>
+                      {% else %}
+                          {{ form.nisn(class='form-control input_user', id='exampleFormControlInput1', placeholder='Masukan nomor NISN', autocomplete='off') }}
+                      {% endif %}
+                </div>
+                <div class="form-group">
+                    <b><label for="exampleFormControlInput1">Nama Lengkap</label></b>
+                    {% if form.nama_lengkap.errors %}
+                        {{ form.nama_lengkap(class='form-control is-invalid input_user', id='exampleFormControlInput1', placeholder='Masukan nama lengkap', autocomplete='off') }}
+                        <div class="text-center invalid-feedback">
+                            {% for error in form.nama_lengkap.errors %}
+                                {{error}}
+                            {% endfor %}
+                        </div>
+                      {% else %}
+                          {{ form.nama_lengkap(class='form-control input_user', id='exampleFormControlInput1', placeholder='Masukan nama lengkap', autocomplete='off') }}
+                      {% endif %}
+                </div>
+                <div class="form-group">
+                    <b><label>Jenis Kelamin</label></b>
+                    {% if form.jenis_kelamin.errors %}
+                        {{ form.jenis_kelamin(class='is-invalid input_user', id='exampleFormControlInput1', placeholder='Masukan nama lengkap', autocomplete='off') }}
+                        <div class="text-center invalid-feedback">
+                            {% for error in form.jenis_kelamin.errors %}
+                                {{error}}
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.jenis_kelamin(class='input_user', id='exampleFormControlInput1', placeholder='Masukan nama lengkap', autocomplete='off') }}
+                    {% endif %}
+                </div>
+                <!--
+                <div class="form-group">
+                    <label for="exampleFormControlSelect1">Agama</label>
+                    <select class="form-control" id="exampleFormControlSelect1">
+                        <option>Kristen</option>
+                        <option>Islam</option>
+                        <option>Hindu</option>
+                        <option>Budha</option>
+                        <option>Konghucu</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="exampleFormControlInput1">Asal SMP</label>
+                    <input type="text" class="form-control" id="exampleFormControlInput1"
+                        placeholder="Masukan asal SMP">
+                </div>
+                <div class="form-group">
+                    <label for="exampleFormControlSelect1">Pilihan Jurusan</label>
+                    <select class="form-control" id="exampleFormControlSelect1">
+                        <option>TEKNIK AUDIO VIDEO</option>
+                        <option>TEKNIK DAN BISNIS SEPEDA MOTOR</option>
+                        <option>TEKNIK KOMPUTER DAN JARINGAN</option>
+                        <option>TEKNIK INSTALASI TENAGA LISTRIK</option>
+                        <option>TEKNIK PENGELASAN</option>
+                        <option>BISNIS KONSTRUKSI DAN PROPERTI</option>
+                        <option>DESAIN PEMODELAN DAN INFORMASI BANGUNAN</option>
+                        <option>TEKNIK KENDARAAN RINGAN OTOMOTIF</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Status</label>
+                    <div class="custom-control custom-radio">
+                        <input type="radio" id="customRadio3" name="customRadio" class="custom-control-input">
+                        <label class="custom-control-label" for="customRadio3">OAP (Orang Asli Papua)</label>
+                    </div>
+                    <div class="custom-control custom-radio">
+                        <input type="radio" id="customRadio4" name="customRadio" class="custom-control-input">
+                        <label class="custom-control-label" for="customRadio4">NON OAP (Bukan Orang Asli Papua)</label>
+                    </div>
+                </div> -->
+                <div class="form-group">
+                    {{ form.simpan(class='btn btn-primary mb-1 mt-5') }}
+                </div>
+            </form>
+        </div>
+    </div>
+    {% endblock %}
+
+
+    {% block scripts %}
+    <script src="{{ url_for('static', filename='vendor/jquery/jquery.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='vendor/jquery-easing/jquery.easing.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/ruang-admin.min.js') }}"></script>
+    {% endblock %}

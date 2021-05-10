@@ -1,14 +1,14 @@
 from app import app, db, bcrypt
 from flask import render_template, redirect, url_for, flash, request
-from .forms import DaftarAkunForm, MasukAkunForm
-from .models import AkunPengguna
+from .forms import DaftarAkunForm, MasukAkunForm, BiodataSiswaForm
+from .models import AkunPengguna, BiodataSiswa
 from flask_login import login_user, current_user, logout_user, login_required
 
 @app.route('/dashboard')
 @login_required
 def home():
-   foto_profil = url_for('static', filename='img/foto-profil/' + current_user.foto_profil)
-   return render_template('index.html', title='PPDB', foto_profil=foto_profil)
+   # foto_profil = url_for('static', filename='img/foto-profil/' + current_user.foto_profil)
+   return render_template('index.html', title='PPDB', page='Dasbor')
 
 @app.route('/', methods=['GET','POST'])
 @app.route('/masuk', methods=['GET','POST'])
@@ -45,3 +45,35 @@ def register():
 def logout():
     logout_user()
     return redirect(url_for('login'))
+
+
+@app.route('/biodata', methods=['GET','POST'])
+def biodata():
+   form = BiodataSiswaForm()
+   if form.validate_on_submit():
+      biodata = BiodataSiswa(nisn=form.nisn.data, nama_lengkap=form.nama_lengkap.data, jenis_kelamin=form.jenis_kelamin.data)
+      db.session.add(biodata)
+      db.session.commit()
+      flash('Biodata berhasil disimpan','success')
+      return redirect(url_for('edit_biodata'))
+   return render_template('data_siswa/biodata.html', title='Biodata', page='Biodata', form=form)
+
+
+@app.route('/biodata/<int:id>', methods=['GET','POST'])
+@login_required
+def edit_biodata(id):
+      data = BiodataSiswa.query.get_or_404(id)
+      form = BiodataSiswaForm()
+      if form.validate_on_submit():
+         data.nisn = form.nisn.data 
+         data.nama_lengkap = form.nama_lengkap.data    
+         data.jenis_kelamin = form.jenis_kelamin.data    
+         db.session.commit()
+         flash('Biodata berhasil diupdate','success')
+         return redirect(url_for('edit_biodata'))
+      else:
+         form.nisn.data = data.nisn
+         form.nama_lengkap.data = data.nama_lengkap
+         form.jenis_kelamin.data = data.jenis_kelamin    
+      return render_template('data_siswa/biodata.html', title='Biodata', page='Biodata', 
+                     form=form, data=BiodataSiswa.query.all())

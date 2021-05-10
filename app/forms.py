@@ -1,7 +1,8 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, BooleanField
+from wtforms import StringField, IntegerField, PasswordField, SubmitField, BooleanField, RadioField
 from wtforms.validators import DataRequired, Email, EqualTo, Length, ValidationError
 from .models import AkunPengguna
+
 
 class DaftarAkunForm(FlaskForm):
     nama_lengkap = StringField('nama_lengkap', validators=[DataRequired(), Length(max=25, message='Nama lengkap tidak sesuai, Silahkan periksa kembali')])
@@ -21,3 +22,14 @@ class MasukAkunForm(FlaskForm):
     kata_sandi = PasswordField('kata_sandi', validators=[DataRequired()])
     remember = BooleanField('Simpan kata sandi', default=False)
     masuk = SubmitField('Masuk')
+
+JK = [
+    'Laki-laki',
+    'Perempuan'
+]
+
+class BiodataSiswaForm(FlaskForm):
+    nisn = StringField('nisn', validators=[DataRequired(), Length(min=10, message='NISN tidak sesuai, silahkan periksa kembali')])
+    nama_lengkap = StringField('nama_lengkap', validators=[DataRequired(), Length(max=25, message='Nama lengkap tidak sesuai, Silahkan periksa kembali')])
+    jenis_kelamin = RadioField('jenis_kelamin', choices=JK)
+    simpan = SubmitField('Simpan')
