@@ -1,0 +1,35 @@
+{% extends './layout.html' %}
+
+{% block styles %}
+<link href="{{ url_for('static', filename='vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet"
+    type="text/css">
+<link href="{{ url_for('static', filename='vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet"
+    type="text/css">
+<link href="{{ url_for('static', filename='css/ruang-admin.min.css') }}" rel="stylesheet">
+<style>
+    ul {
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+    }
+</style>
+{% endblock %}
+
+
+{% block content %}
+<div class="text-center">
+    <img src="{{ url_for ('static', filename='img/error.svg')}}" style="max-height: 100px;" class="mb-3">
+    <h3 class="text-gray-800 font-weight-bold">Oopss!</h3>
+    <p class="lead text-gray-800 mx-auto">404 Halaman tidak ditemukan</p>
+    <a href="{{ url_for ('home')}}">&larr; Kembali ke Dasbor</a>
+</div>
+{% endblock %}
+
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='vendor/jquery/jquery.min.js') }}"></script>
+<script src="{{ url_for('static', filename='vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+<script src="{{ url_for('static', filename='vendor/jquery-easing/jquery.easing.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/ruang-admin.min.js') }}"></script>
+{% endblock %}
+

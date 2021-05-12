@@ -1,7 +1,14 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, IntegerField, PasswordField, SubmitField, BooleanField, RadioField, SelectField
 from wtforms.validators import DataRequired, Email, EqualTo, Length, ValidationError
-from .models import AkunPengguna
+from .models import Pengguna
+from flask_login import current_user
+from app import login_manager
+
+
+@login_manager.user_loader
+def load_user(user_id):
+    return Pengguna.query.get(int(user_id))
 
 
 class DaftarAkunForm(FlaskForm):
@@ -12,7 +19,7 @@ class DaftarAkunForm(FlaskForm):
     daftar = SubmitField('Daftar')
 
     def validate_email(self, email):
-        pengguna = AkunPengguna.query.filter_by(email=email.data).first()
+        pengguna = Pengguna.query.filter_by(email=email.data).first()
         if pengguna:
             raise ValidationError('Email ini sudah pernah terdaftar')
 
@@ -58,7 +65,7 @@ class BiodataSiswaForm(FlaskForm):
     nama_lengkap = StringField('nama_lengkap', validators=[DataRequired(), Length(max=25, message='Nama lengkap tidak sesuai, Silahkan periksa kembali')])
     jenis_kelamin = RadioField('jenis_kelamin', choices=JK)
     agama = SelectField('agama', choices=AG)
-    asal_smp = StringField('asal_smp', validators=[DataRequired(), Length(max=25, message='Asal SMP tidak sesuai, Silahkan periksa kembali')])
+    asal_smp = StringField('asal_smp', validators=[DataRequired(), Length(max=50, message='Asal SMP tidak sesuai, Silahkan periksa kembali')])
     pilihan_jurusan = SelectField('pilihan_jurusan', choices=JR)
     status_suku = RadioField('status_suku', choices=SK)
     simpan = SubmitField('Simpan')
