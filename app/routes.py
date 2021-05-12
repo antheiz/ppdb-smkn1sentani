@@ -10,6 +10,11 @@ def home():
    # foto_profil = url_for('static', filename='img/foto-profil/' + current_user.foto_profil)
    return render_template('index.html', title='PPDB', page='Dasbor', data1=Biodata.query.get(current_user.id))
 
+@app.errorhandler(404)
+def page_not_found(e):
+    # note that we set the 404 status explicitly
+    return render_template('error_page.html', title='Error', data1=Biodata.query.get(current_user.id)), 404
+
 @app.route('/', methods=['GET','POST'])
 @app.route('/masuk', methods=['GET','POST'])
 def login():
@@ -49,7 +54,7 @@ def logout():
 
 @app.route('/biodata/', methods=['GET','POST'])
 @login_required
-def biodata():
+def lengkapi_biodata():
    form = BiodataSiswaForm(nama_lengkap = current_user.nama_lengkap)
    if form.validate_on_submit():
       biodata = Biodata(nisn=form.nisn.data, jenis_kelamin=form.jenis_kelamin.data, 
@@ -58,15 +63,10 @@ def biodata():
       db.session.add(biodata)
       db.session.commit()
       flash('Biodata berhasil disimpan','success')
-      return redirect(url_for('edit_biodata', id=biodata.id))
-   return render_template('data_siswa/biodata.html', title='Biodata', page='Biodata', form=form, data1=Biodata.query.get(current_user.id))
+      return redirect(url_for('biodata', id=biodata.id))
+   return render_template('data_siswa/biodata.html', title='Lengkapi Biodata', page='Biodata', form=form, data1=Biodata.query.get(current_user.id))
 
-@app.errorhandler(404)
-def page_not_found(e):
-    # note that we set the 404 status explicitly
-    return render_template('error_page.html', title='Error', data1=Biodata.query.get(current_user.id)), 404
-
-@app.route('/biodata/<id>/', methods=['GET','POST'])
+@app.route('/biodata/<id>/edit/', methods=['GET','POST'])
 @login_required
 def edit_biodata(id):
       data = Biodata.query.get_or_404(id)
@@ -83,7 +83,7 @@ def edit_biodata(id):
          data.status = form.status_suku.data 
          db.session.commit()
          flash('Biodata berhasil diupdate','success')
-         return redirect(url_for('edit_biodata', id=data.id))
+         return redirect(url_for('biodata', id=data.id))
       else:
          form.nisn.data = data.nisn
          form.nama_lengkap.data = current_user.nama_lengkap
@@ -94,3 +94,21 @@ def edit_biodata(id):
          form.status_suku.data = data.status   
       return render_template('data_siswa/biodata.html', title='Biodata', page='Biodata', 
                      form=form, data=Biodata.query.all(), update='update', data1=Biodata.query.get(current_user.id))
+
+
+@app.route('/biodata/<id>/', methods=['GET','POST'])
+@login_required
+def biodata(id):
+      data = Biodata.query.get_or_404(id)
+      if data.author != current_user:
+         abort(404)
+      form = BiodataSiswaForm()
+      form.nisn.data = data.nisn
+      form.nama_lengkap.data = current_user.nama_lengkap
+      form.jenis_kelamin.data = data.jenis_kelamin 
+      form.agama.data = data.agama
+      form.asal_smp.data = data.asal_smp
+      form.pilihan_jurusan.data = data.kompetensi
+      form.status_suku.data = data.status   
+      return render_template('data_siswa/biodata.html', title='Biodata', page='Biodata', 
+                     form=form, data=Biodata.query.all(), biodata='biodata', data1=Biodata.query.get(current_user.id))

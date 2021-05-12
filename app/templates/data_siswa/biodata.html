@@ -21,8 +21,10 @@
     <!-- General Element -->
     <div class="card mb-4">
         <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-            {% if update %}
+            {% if biodata %}
                 <h6 class="m-0 font-weight-bold text-primary">Biodata Anda</h6>
+            {% elif update %}
+                <h6 class="m-0 font-weight-bold text-primary">Ubah Biodata</h6>
             {% else %}
                 <h6 class="m-0 font-weight-bold text-primary">Lengkapi Biodata</h6>
             {% endif %}
@@ -41,103 +43,136 @@
         </div>
         <div class="card-body">
             <form method="POST">
-                {{ form.hidden_tag() }}
-                <div class="form-group">
-                    <b><label for="exampleFormControlInput1">NISN</label></b>
-                    {% if form.nisn.errors %}
-                        {{ form.nisn(class='form-control is-invalid input_user', id='exampleFormControlInput1', placeholder='Masukan nomor NISN', autocomplete='off')}}
-                        <div class="text-center invalid-feedback">
-                            {% for error in form.nisn.errors %}
-                                {{error}}
-                            {% endfor %}
-                        </div>
-                      {% else %}
-                          {{ form.nisn(class='form-control input_user', id='exampleFormControlInput1', placeholder='Masukan nomor NISN', autocomplete='off')}}
-                      {% endif %}
+                {% if biodata %}
+                <div class="table-responsive">
+                    <table class="table align-items-center table-flush">
+                      <thead class="thead-light">
+                        <tr>
+                          <th>NISN</th>
+                          <th>Nama Lengkap</th>
+                          <th>Jenis Kelamin</th>
+                          <th>Agama</th>
+                          <th>Asal SMP</th>
+                          <th>Pilihan Kompetensi</th>
+                          <th>Status</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>{{data1.nisn}}</td>
+                          <td>{{data1.author.nama_lengkap}}</td>
+                          <td>{{data1.jenis_kelamin}}</td>
+                          <td>{{data1.agama}}</td>
+                          <td>{{data1.asal_smp}}</td>
+                          <td>{{data1.kompetensi}}</td>
+                          <td>{{data1.status}}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <div class="card-footer"></div>
                 </div>
+                {% else %}
+                    {{ form.hidden_tag() }}
+                    <div class="form-group">
+                        <b><label for="exampleFormControlInput1">NISN</label></b>
+                        {% if form.nisn.errors %}
+                            {{ form.nisn(class='form-control is-invalid input_user', id='exampleFormControlInput1', placeholder='Masukan nomor NISN', autocomplete='off')}}
+                            <div class="text-center invalid-feedback">
+                                {% for error in form.nisn.errors %}
+                                    {{error}}
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ form.nisn(class='form-control input_user', id='exampleFormControlInput1', placeholder='Masukan nomor NISN', autocomplete='off')}}
+                        {% endif %}
+                    </div>
+                    <div class="form-group">
+                        <b><label for="exampleFormControlInput1">Nama Lengkap</label></b>
+                        {% if form.nama_lengkap.errors %}
+                            {{ form.nama_lengkap(class='form-control is-invalid input_user', id='exampleFormControlInput1', placeholder='Masukan nama lengkap', autocomplete='off') }}
+                            <div class="text-center invalid-feedback">
+                                {% for error in form.nama_lengkap.errors %}
+                                    {{error}}
+                                {% endfor %}
+                            </div>
+                        {% elif update %}
+                            {{ form.nama_lengkap(class='form-control input_user', id='exampleFormControlInput1', placeholder='Masukan nama lengkap', autocomplete='off') }}
+                        {% else %} 
+                            {{ form.nama_lengkap(class='form-control input_user', id='exampleFormControlInput1', placeholder='Masukan nama lengkap', autocomplete='off', readonly='on') }}   
+                        {% endif %}
+                    </div>
+                    <div class="form-group">
+                        <b><label>Jenis Kelamin</label></b>
+                        {% if form.jenis_kelamin.errors %}
+                            {{ form.jenis_kelamin(class='is-invalid input_user', id='exampleFormControlInput1', placeholder='Masukan jenis kelamin', autocomplete='off') }}
+                            <div class="text-center invalid-feedback">
+                                {% for error in form.jenis_kelamin.errors %}
+                                    {{error}}
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ form.jenis_kelamin(class='input_user', id='exampleFormControlInput1', placeholder='Masukan jenis kelamin', autocomplete='off') }}
+                        {% endif %}
+                    </div>
+                    <div class="form-group">
+                        <b><label for="exampleFormControlInput1">Agama</label></b>
+                        {% if form.agama.errors %}
+                            {{ form.agama(class='form-control is-invalid input_user', id='exampleFormControlInput1', placeholder='Pilih Agama Anda', autocomplete='off') }}
+                            <div class="text-center invalid-feedback">
+                                {% for error in form.agama.errors %}
+                                    {{error}}
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ form.agama(class='form-control input_user', id='exampleFormControlInput1', placeholder='Pilih Agama Anda', autocomplete='off') }}
+                        {% endif %}
+                    </div>
+                    <div class="form-group">
+                        <b><label for="exampleFormControlInput1">Asal SMP</label></b>
+                        {% if form.asal_smp.errors %}
+                            {{ form.asal_smp(class='form-control is-invalid input_user', id='exampleFormControlInput1', placeholder='Masukan asal SMP Anda (mis. SMP Negeri 2 Sentani)', autocomplete='off') }}
+                            <div class="text-center invalid-feedback">
+                                {% for error in form.asal_smp.errors %}
+                                    {{error}}
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ form.asal_smp(class='form-control input_user', id='exampleFormControlInput1', placeholder='Masukan asal SMP Anda (mis. SMP Negeri 2 Sentani)', autocomplete='off') }}
+                        {% endif %}
+                    </div>
+                    <div class="form-group">
+                        <b><label for="exampleFormControlInput1">Pilihan Kompetensi Keahlian</label></b>
+                        {% if form.pilihan_jurusan.errors %}
+                            {{ form.pilihan_jurusan(class='form-control is-invalid input_user', id='exampleFormControlInput1', placeholder='Pilih Kompetensi Keahlian Anda', autocomplete='off') }}
+                            <div class="text-center invalid-feedback">
+                                {% for error in form.pilihan_jurusan.errors %}
+                                    {{error}}
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ form.pilihan_jurusan(class='form-control input_user', id='exampleFormControlInput1', placeholder='Pilih Kompetensi Keahlian Anda', autocomplete='off') }}
+                        {% endif %}
+                    </div>
+                    <div class="form-group">
+                        <b><label>Status</label></b>
+                        {% if form.status_suku.errors %}
+                            {{ form.status_suku(class='is-invalid input_user', id='exampleFormControlInput1', placeholder='Masukan status suku anda', autocomplete='off') }}
+                            <div class="text-center invalid-feedback">
+                                {% for error in form.status_suku.errors %}
+                                    {{error}}
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ form.status_suku(class='input_user', id='exampleFormControlInput1', placeholder='Masukan status suku anda', autocomplete='off') }}
+                        {% endif %}
+                    </div>
+                {% endif %}
                 <div class="form-group">
-                    <b><label for="exampleFormControlInput1">Nama Lengkap</label></b>
-                    {% if form.nama_lengkap.errors %}
-                        {{ form.nama_lengkap(class='form-control is-invalid input_user', id='exampleFormControlInput1', placeholder='Masukan nama lengkap', autocomplete='off') }}
-                        <div class="text-center invalid-feedback">
-                            {% for error in form.nama_lengkap.errors %}
-                                {{error}}
-                            {% endfor %}
-                        </div>
-                      {% elif update %}
-                        {{ form.nama_lengkap(class='form-control input_user', id='exampleFormControlInput1', placeholder='Masukan nama lengkap', autocomplete='off') }}
-                      {% else %} 
-                        {{ form.nama_lengkap(class='form-control input_user', id='exampleFormControlInput1', placeholder='Masukan nama lengkap', autocomplete='off', readonly='on') }}   
-                      {% endif %}
-                </div>
-                <div class="form-group">
-                    <b><label>Jenis Kelamin</label></b>
-                    {% if form.jenis_kelamin.errors %}
-                        {{ form.jenis_kelamin(class='is-invalid input_user', id='exampleFormControlInput1', placeholder='Masukan jenis kelamin', autocomplete='off') }}
-                        <div class="text-center invalid-feedback">
-                            {% for error in form.jenis_kelamin.errors %}
-                                {{error}}
-                            {% endfor %}
-                        </div>
-                    {% else %}
-                        {{ form.jenis_kelamin(class='input_user', id='exampleFormControlInput1', placeholder='Masukan jenis kelamin', autocomplete='off') }}
-                    {% endif %}
-                </div>
-                <div class="form-group">
-                    <b><label for="exampleFormControlInput1">Agama</label></b>
-                    {% if form.agama.errors %}
-                        {{ form.agama(class='form-control is-invalid input_user', id='exampleFormControlInput1', placeholder='Pilih Agama Anda', autocomplete='off') }}
-                        <div class="text-center invalid-feedback">
-                            {% for error in form.agama.errors %}
-                                {{error}}
-                            {% endfor %}
-                        </div>
-                      {% else %}
-                          {{ form.agama(class='form-control input_user', id='exampleFormControlInput1', placeholder='Pilih Agama Anda', autocomplete='off') }}
-                      {% endif %}
-                </div>
-                <div class="form-group">
-                    <b><label for="exampleFormControlInput1">Asal SMP</label></b>
-                    {% if form.asal_smp.errors %}
-                        {{ form.asal_smp(class='form-control is-invalid input_user', id='exampleFormControlInput1', placeholder='Masukan asal SMP Anda (mis. SMP Negeri 2 Sentani)', autocomplete='off') }}
-                        <div class="text-center invalid-feedback">
-                            {% for error in form.asal_smp.errors %}
-                                {{error}}
-                            {% endfor %}
-                        </div>
-                      {% else %}
-                          {{ form.asal_smp(class='form-control input_user', id='exampleFormControlInput1', placeholder='Masukan asal SMP Anda (mis. SMP Negeri 2 Sentani)', autocomplete='off') }}
-                      {% endif %}
-                </div>
-                <div class="form-group">
-                    <b><label for="exampleFormControlInput1">Pilihan Kompetensi Keahlian</label></b>
-                    {% if form.pilihan_jurusan.errors %}
-                        {{ form.pilihan_jurusan(class='form-control is-invalid input_user', id='exampleFormControlInput1', placeholder='Pilih Kompetensi Keahlian Anda', autocomplete='off') }}
-                        <div class="text-center invalid-feedback">
-                            {% for error in form.pilihan_jurusan.errors %}
-                                {{error}}
-                            {% endfor %}
-                        </div>
-                      {% else %}
-                          {{ form.pilihan_jurusan(class='form-control input_user', id='exampleFormControlInput1', placeholder='Pilih Kompetensi Keahlian Anda', autocomplete='off') }}
-                      {% endif %}
-                </div>
-                <div class="form-group">
-                    <b><label>Status</label></b>
-                    {% if form.status_suku.errors %}
-                        {{ form.status_suku(class='is-invalid input_user', id='exampleFormControlInput1', placeholder='Masukan status suku anda', autocomplete='off') }}
-                        <div class="text-center invalid-feedback">
-                            {% for error in form.status_suku.errors %}
-                                {{error}}
-                            {% endfor %}
-                        </div>
-                    {% else %}
-                        {{ form.status_suku(class='input_user', id='exampleFormControlInput1', placeholder='Masukan status suku anda', autocomplete='off') }}
-                    {% endif %}
-                </div>
-                <div class="form-group">
-                    {% if update %}
-                        <a href="{{ url_for ('edit_biodata', id=data1.id) }}" class="btn btn-dark mb-1 mt-5">Ubah Biodata</a>
+                    {% if biodata %}
+                        <a href="{{ url_for ('edit_biodata', id=data1.id) }}" class="btn btn-dark mb-1 mt-5 ml-3">Ubah Biodata</a>
+                    {% elif update %}
+                        {{ form.simpan(class='btn btn-primary mb-1 mt-5', value='Simpan Perubahan') }}
                     {% else %}
                         {{ form.simpan(class='btn btn-primary mb-1 mt-5') }}
                     {% endif %}
