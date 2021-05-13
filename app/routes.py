@@ -8,13 +8,15 @@ from flask_login import login_user, current_user, logout_user, login_required
 @login_required
 def home():
    # foto_profil = url_for('static', filename='img/foto-profil/' + current_user.foto_profil)
-   return render_template('index.html', title='PPDB', page='Dasbor', data1=Biodata.query.get(current_user.id))
+   return render_template('index.html', title='PPDB', page='Dasbor', 
+   data1=Biodata.query.get(current_user.id), data2=Orangtua.query.get(current_user.id))
 
 @app.errorhandler(404)
 @login_required
 def page_not_found(e):
     # note that we set the 404 status explicitly
-    return render_template('error_page.html', title='Error', data1=Biodata.query.get(current_user.id)), 404
+    return render_template('error_page.html', title='Error', 
+    data1=Biodata.query.get(current_user.id), data2=Orangtua.query.get(current_user.id)), 404
 
 @app.route('/', methods=['GET','POST'])
 @app.route('/masuk', methods=['GET','POST'])
@@ -66,7 +68,8 @@ def lengkapi_biodata():
       db.session.commit()
       flash('Biodata berhasil disimpan','success')
       return redirect(url_for('biodata', id=biodata.id))
-   return render_template('data_siswa/biodata.html', title='Lengkapi Biodata', page='Biodata', form=form, data1=Biodata.query.get(current_user.id))
+   return render_template('data_siswa/biodata.html', title='Lengkapi Biodata', page='Biodata', 
+                     form=form, data1=Biodata.query.get(current_user.id), data2=Orangtua.query.get(current_user.id))
 
 @app.route('/biodata/<id>/edit/', methods=['GET','POST'])
 @login_required
@@ -95,7 +98,8 @@ def edit_biodata(id):
          form.pilihan_jurusan.data = data.kompetensi
          form.status_suku.data = data.status   
       return render_template('data_siswa/biodata.html', title='Biodata', page='Biodata', 
-                     form=form, data=Biodata.query.all(), update='update', data1=Biodata.query.get(current_user.id))
+                     form=form, data=Biodata.query.all(), update='update', 
+                     data1=Biodata.query.get(current_user.id), data2=Orangtua.query.get(current_user.id))
 
 
 @app.route('/biodata/<id>/', methods=['GET','POST'])
@@ -113,14 +117,15 @@ def biodata(id):
       form.pilihan_jurusan.data = data.kompetensi
       form.status_suku.data = data.status   
       return render_template('data_siswa/biodata.html', title='Biodata', page='Biodata', 
-                     form=form, data=Biodata.query.all(), biodata='biodata', data1=Biodata.query.get(current_user.id))
+                     form=form, data=Biodata.query.all(), biodata='biodata', 
+                     data1=Biodata.query.get(current_user.id), data2=Orangtua.query.get(current_user.id))
 
 # Akhir Biodata Siswa
 
 # Orangtua
 @app.route('/data/orangtua/', methods=['GET','POST'])
 @login_required
-def data_orangtua():
+def tambah_orangtua():
    form = DataOrangtuaForm()
    if form.validate_on_submit():
       orangtua = Orangtua(no_telepon=form.no_telepon.data, nama_orangtua=form.nama_orangtua.data, 
@@ -128,6 +133,42 @@ def data_orangtua():
       db.session.add(orangtua)
       db.session.commit()
       flash('Data orangtua berhasil disimpan','success')
-      # return redirect(url_for('home', id=biodata.id))
-      return redirect(url_for('home'))
-   return render_template('data_orangtua/index.html', title='Lengkapi Data Orangtua', page='Orangtua', form=form, data1=Biodata.query.get(current_user.id))
+      return redirect(url_for('lengkapi_orangtua', id=orangtua.id))
+   return render_template('data_orangtua/index.html', title='Lengkapi Data Orangtua', page='Orangtua', 
+                     form=form, data1=Biodata.query.get(current_user.id), data2=Orangtua.query.get(current_user.id))
+
+@app.route('/data/orangtua/<id>/', methods=['GET','POST'])
+@login_required
+def lengkapi_orangtua(id):
+      data = Orangtua.query.get_or_404(id)
+      if data.pengguna != current_user:
+         abort(404)
+      form = DataOrangtuaForm()
+      form.no_telepon.data = data.no_telepon
+      form.nama_orangtua.data = data.nama_orangtua
+      form.alamat.data = data.alamat  
+      return render_template('data_orangtua/index.html', title='Orangtua', page='Orangtua', 
+                     form=form, data=Orangtua.query.all(), orangtua='orangtua',
+                     data1=Biodata.query.get(current_user.id), data2=Orangtua.query.get(current_user.id))
+
+@app.route('/data/orangtua/<id>/edit/', methods=['GET','POST'])
+@login_required
+def edit_orangtua(id):
+      data = Orangtua.query.get_or_404(id)
+      if data.pengguna != current_user:
+         abort(404)
+      form = DataOrangtuaForm()
+      if form.validate_on_submit():
+         data.no_telepon = form.no_telepon.data 
+         data.nama_orangtua = form.nama_orangtua.data    
+         data.alamat = form.alamat.data  
+         db.session.commit()
+         flash('Data orangtua berhasil diupdate','success')
+         return redirect(url_for('lengkapi_orangtua', id=data.id))
+      else:
+         form.no_telepon.data = data.no_telepon
+         form.nama_orangtua.data = data.nama_orangtua
+         form.alamat.data = data.alamat  
+      return render_template('data_orangtua/index.html', title='Orangtua', page='Orangtua', 
+                     form=form, data=Orangtua.query.all(), update='update', 
+                     data1=Biodata.query.get(current_user.id), data2=Orangtua.query.get(current_user.id))

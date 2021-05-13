@@ -21,10 +21,10 @@
     <!-- General Element -->
     <div class="card mb-4">
         <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-            {% if biodata %}
+            {% if orangtua %}
                 <h6 class="m-0 font-weight-bold text-primary">Data Orangtua</h6>
             {% elif update %}
-                <h6 class="m-0 font-weight-bold text-primary">Ubah Biodata</h6>
+                <h6 class="m-0 font-weight-bold text-primary">Ubah Data Orangtua</h6>
             {% else %}
                 <h6 class="m-0 font-weight-bold text-primary">Lengkapi Data Orangtua</h6>
             {% endif %}
@@ -43,29 +43,21 @@
         </div>
         <div class="card-body">
             <form method="POST">
-                {% if biodata %}
+                {% if orangtua %}
                 <div class="table-responsive">
                     <table class="table align-items-center table-flush">
                       <thead class="thead-light">
                         <tr>
-                          <th>NISN</th>
-                          <th>Nama Lengkap</th>
-                          <th>Jenis Kelamin</th>
-                          <th>Agama</th>
-                          <th>Asal SMP</th>
-                          <th>Pilihan Kompetensi</th>
-                          <th>Status</th>
+                          <th>Nama Orangtua</th>
+                          <th>No.Handphone</th>
+                          <th>Alamat</th>
                         </tr>
                       </thead>
                       <tbody>
                         <tr>
-                          <td>{{data1.nisn}}</td>
-                          <td>{{data1.author.nama_lengkap}}</td>
-                          <td>{{data1.jenis_kelamin}}</td>
-                          <td>{{data1.agama}}</td>
-                          <td>{{data1.asal_smp}}</td>
-                          <td>{{data1.kompetensi}}</td>
-                          <td>{{data1.status}}</td>
+                          <td>{{data2.nama_orangtua}}</td>
+                          <td>{{data2.no_telepon}}</td>
+                          <td>{{data2.alamat}}</td>
                         </tr>
                       </tbody>
                     </table>
@@ -119,8 +111,8 @@
                     </div>
                 {% endif %}
                 <div class="form-group">
-                    {% if biodata %}
-                        <a href="{{ url_for ('edit_biodata', id=data1.id) }}" class="btn btn-dark mb-1 mt-5 ml-3">Ubah Biodata</a>
+                    {% if orangtua %}
+                        <a href="{{ url_for ('edit_orangtua', id=data2.id) }}" class="btn btn-dark mb-1 mt-5 ml-3">Ubah Biodata</a>
                     {% elif update %}
                         {{ form.simpan(class='btn btn-primary mb-1 mt-5', value='Simpan Perubahan') }}
                     {% else %}
