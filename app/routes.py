@@ -1,7 +1,7 @@
 from app import app, db, bcrypt
 from flask import render_template, redirect, url_for, flash, request, abort
-from .forms import DaftarAkunForm, MasukAkunForm, BiodataSiswaForm
-from .models import Pengguna, Biodata
+from .forms import DaftarAkunForm, MasukAkunForm, BiodataSiswaForm, DataOrangtuaForm
+from .models import Pengguna, Biodata, Orangtua
 from flask_login import login_user, current_user, logout_user, login_required
 
 @app.route('/dashboard')
@@ -11,6 +11,7 @@ def home():
    return render_template('index.html', title='PPDB', page='Dasbor', data1=Biodata.query.get(current_user.id))
 
 @app.errorhandler(404)
+@login_required
 def page_not_found(e):
     # note that we set the 404 status explicitly
     return render_template('error_page.html', title='Error', data1=Biodata.query.get(current_user.id)), 404
@@ -52,6 +53,7 @@ def logout():
     return redirect(url_for('login'))
 
 
+# Biodata Calon Siswa
 @app.route('/biodata/', methods=['GET','POST'])
 @login_required
 def lengkapi_biodata():
@@ -112,3 +114,20 @@ def biodata(id):
       form.status_suku.data = data.status   
       return render_template('data_siswa/biodata.html', title='Biodata', page='Biodata', 
                      form=form, data=Biodata.query.all(), biodata='biodata', data1=Biodata.query.get(current_user.id))
+
+# Akhir Biodata Siswa
+
+# Orangtua
+@app.route('/data/orangtua/', methods=['GET','POST'])
+@login_required
+def data_orangtua():
+   form = DataOrangtuaForm()
+   if form.validate_on_submit():
+      orangtua = Orangtua(no_telepon=form.no_telepon.data, nama_orangtua=form.nama_orangtua.data, 
+                     alamat=form.alamat.data, pengguna=current_user)
+      db.session.add(orangtua)
+      db.session.commit()
+      flash('Data orangtua berhasil disimpan','success')
+      # return redirect(url_for('home', id=biodata.id))
+      return redirect(url_for('home'))
+   return render_template('data_orangtua/index.html', title='Lengkapi Data Orangtua', page='Orangtua', form=form, data1=Biodata.query.get(current_user.id))

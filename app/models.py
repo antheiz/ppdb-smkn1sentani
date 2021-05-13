@@ -13,6 +13,7 @@ class Pengguna(db.Model, UserMixin):
     # foto_profil = db.Column(db.String(30), nullable=False, default='defaults.png')
     kata_sandi = db.Column(db.Text, nullable=False)
     biodatasiswa = db.relationship('Biodata', backref='author', lazy=True)
+    orangtua = db.relationship('Orangtua', backref='pengguna', lazy=True)
 
 class Biodata(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -23,3 +24,10 @@ class Biodata(db.Model):
     kompetensi = db.Column(db.Text, nullable=False)
     status = db.Column(db.String(25), nullable=False)
     nama_lengkap = db.Column(db.Integer, db.ForeignKey('pengguna.id'), nullable=False)
+
+class Orangtua(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    no_telepon = db.Column(db.Integer, nullable=False)
+    nama_orangtua = db.Column(db.String(25), nullable=False)
+    alamat = db.Column(db.Text, nullable=False)
+    pengguna_id = db.Column(db.Integer, db.ForeignKey('pengguna.id'), nullable=False)

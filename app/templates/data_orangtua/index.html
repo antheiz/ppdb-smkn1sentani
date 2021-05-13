@@ -1,0 +1,141 @@
+{% extends './layout.html' %}
+
+{% block styles %}
+<link href="{{ url_for('static', filename='vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet"
+    type="text/css">
+<link href="{{ url_for('static', filename='vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet"
+    type="text/css">
+<link href="{{ url_for('static', filename='css/ruang-admin.min.css') }}" rel="stylesheet">
+<style>
+    ul { 
+        list-style-type: none; 
+        padding: 0;
+        margin: 0;
+    }
+</style>
+{% endblock %}
+
+
+{% block content %}
+<div class="col-lg-12">
+    <!-- General Element -->
+    <div class="card mb-4">
+        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+            {% if biodata %}
+                <h6 class="m-0 font-weight-bold text-primary">Data Orangtua</h6>
+            {% elif update %}
+                <h6 class="m-0 font-weight-bold text-primary">Ubah Biodata</h6>
+            {% else %}
+                <h6 class="m-0 font-weight-bold text-primary">Lengkapi Data Orangtua</h6>
+            {% endif %}
+            {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+              {% for category, message in messages %}
+                <div class="alert alert-{{ category }}">
+                  <b>{{ message|safe }}</b>
+                <button type="button" class="close text-right ml-2" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                </div>
+              {% endfor %}
+            {% endif %}
+            {% endwith %}
+        </div>
+        <div class="card-body">
+            <form method="POST">
+                {% if biodata %}
+                <div class="table-responsive">
+                    <table class="table align-items-center table-flush">
+                      <thead class="thead-light">
+                        <tr>
+                          <th>NISN</th>
+                          <th>Nama Lengkap</th>
+                          <th>Jenis Kelamin</th>
+                          <th>Agama</th>
+                          <th>Asal SMP</th>
+                          <th>Pilihan Kompetensi</th>
+                          <th>Status</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>{{data1.nisn}}</td>
+                          <td>{{data1.author.nama_lengkap}}</td>
+                          <td>{{data1.jenis_kelamin}}</td>
+                          <td>{{data1.agama}}</td>
+                          <td>{{data1.asal_smp}}</td>
+                          <td>{{data1.kompetensi}}</td>
+                          <td>{{data1.status}}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <div class="card-footer"></div>
+                </div>
+                {% else %}
+                    {{ form.hidden_tag() }}
+                    <div class="form-group">
+                        <b><label for="exampleFormControlInput1">Nama Orangtua</label></b>
+                        {% if form.nama_orangtua.errors %}
+                            {{ form.nama_orangtua(class='form-control is-invalid input_user', id='exampleFormControlInput1', placeholder='Masukan nama Orangtua', autocomplete='off')}}
+                            <div class="text-center invalid-feedback">
+                                {% for error in form.nama_orangtua.errors %}
+                                    {{error}}
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ form.nama_orangtua(class='form-control input_user', id='exampleFormControlInput1', placeholder='Masukan nama Orangtua', autocomplete='off')}}
+                        {% endif %}
+                    </div>
+                    <div class="form-group">
+                        <b><label for="exampleFormControlInput1">No. Handphone</label></b>
+                        {% if form.no_telepon.errors %}
+                            {{ form.no_telepon(class='form-control is-invalid input_user', id='exampleFormControlInput1', placeholder='Masukan No.Handphone', autocomplete='off') }}
+                            <div class="text-center invalid-feedback">
+                                {% for error in form.no_telepon.errors %}
+                                    {{error}}
+                                {% endfor %}
+                            </div>
+                        {% elif update %}
+                            {{ form.no_telepon(class='form-control input_user', id='exampleFormControlInput1', placeholder='Masukan No.Handphone', autocomplete='off') }}
+                        {% else %} 
+                            {{ form.no_telepon(class='form-control input_user', id='exampleFormControlInput1', placeholder='Masukan No.Handphone', autocomplete='off') }}   
+                        {% endif %}
+                    </div>
+                    <div class="form-group">
+                        <b><label for="exampleFormControlInput1">Alamat</label></b>
+                        {% if form.alamat.errors %}
+                            {{ form.alamat(class='form-control is-invalid input_user', id='exampleFormControlInput1', placeholder='Masukan alamat Orangtua', autocomplete='off') }}
+                            <div class="text-center invalid-feedback">
+                                {% for error in form.alamat.errors %}
+                                    {{error}}
+                                {% endfor %}
+                            </div>
+                        {% elif update %}
+                            {{ form.alamat(class='form-control input_user', id='exampleFormControlInput1', placeholder='Masukan alamat Orangtua', autocomplete='off') }}
+                        {% else %} 
+                            {{ form.alamat(class='form-control input_user', id='exampleFormControlInput1', placeholder='Masukan alamat Orangtua', autocomplete='off') }}   
+                        {% endif %}
+                    </div>
+                {% endif %}
+                <div class="form-group">
+                    {% if biodata %}
+                        <a href="{{ url_for ('edit_biodata', id=data1.id) }}" class="btn btn-dark mb-1 mt-5 ml-3">Ubah Biodata</a>
+                    {% elif update %}
+                        {{ form.simpan(class='btn btn-primary mb-1 mt-5', value='Simpan Perubahan') }}
+                    {% else %}
+                        {{ form.simpan(class='btn btn-primary mb-1 mt-5') }}
+                    {% endif %}
+                </div>
+            </form>
+        </div>
+    </div>
+    {% endblock %}
+
+
+    {% block scripts %}
+    <script src="{{ url_for('static', filename='vendor/jquery/jquery.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='vendor/jquery-easing/jquery.easing.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/ruang-admin.min.js') }}"></script>
+    {% endblock %}

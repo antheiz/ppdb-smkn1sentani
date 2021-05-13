@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, IntegerField, PasswordField, SubmitField, BooleanField, RadioField, SelectField
+from wtforms import StringField, IntegerField, PasswordField, SubmitField, BooleanField, RadioField, SelectField, TextField
 from wtforms.validators import DataRequired, Email, EqualTo, Length, ValidationError
 from .models import Pengguna
 from flask_login import current_user
@@ -68,4 +68,10 @@ class BiodataSiswaForm(FlaskForm):
     asal_smp = StringField('asal_smp', validators=[DataRequired(), Length(max=50, message='Asal SMP tidak sesuai, Silahkan periksa kembali')])
     pilihan_jurusan = SelectField('pilihan_jurusan', choices=JR)
     status_suku = RadioField('status_suku', choices=SK)
+    simpan = SubmitField('Simpan')
+
+class DataOrangtuaForm(FlaskForm):
+    nama_orangtua = StringField('nama_orangtua', validators=[DataRequired(), Length(max=25, message='Nama lengkap tidak sesuai, Silahkan periksa kembali')])
+    no_telepon = StringField('nisn', validators=[DataRequired(), Length(min=12, message='No. Telepon tidak sesuai. Minimal 12 angka, silahkan periksa kembali')])
+    alamat = TextField('nisn', validators=[DataRequired(), Length(min=30, message='Alamat tidak sesuai. silahkan periksa kembali')])
     simpan = SubmitField('Simpan')
