@@ -30,7 +30,7 @@ def login():
             return redirect(next_page) if next_page else redirect(url_for('home'))
         else:
             flash('Email atau kata sandi salah <br> Silahkan periksa kembali','danger')
-   return render_template('login.html', title='Login', form=form, data=Biodata.query.get(current_user.id))
+   return render_template('login.html', title='Login', form=form)
 
 @app.route('/daftar', methods=['GET','POST'])
 def register():
@@ -44,7 +44,7 @@ def register():
       db.session.commit()
       flash('Akun berhasil dibuat. Silahkan login', 'success')
       return redirect(url_for('login'))
-   return render_template('register.html', title='Register', form=form, data=Biodata.query.get(current_user.id))
+   return render_template('register.html', title='Register', form=form)
 
 
 @app.route('/logout')
