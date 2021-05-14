@@ -59,13 +59,13 @@
                       </thead>
                       <tbody>
                         <tr>
-                          <td>{{data1.nisn}}</td>
-                          <td>{{data1.author.nama_lengkap}}</td>
-                          <td>{{data1.jenis_kelamin}}</td>
-                          <td>{{data1.agama}}</td>
-                          <td>{{data1.asal_smp}}</td>
-                          <td>{{data1.kompetensi}}</td>
-                          <td>{{data1.status}}</td>
+                            <td>{{data.nisn}}</td>
+                            <td>{{data.pengguna.nama_lengkap}}</td>
+                            <td>{{data.jenis_kelamin}}</td>
+                            <td>{{data.agama}}</td>
+                            <td>{{data.asal_smp}}</td>
+                            <td>{{data.kompetensi}}</td>
+                            <td>{{data.status}}</td>
                         </tr>
                       </tbody>
                     </table>
@@ -170,9 +170,10 @@
                 {% endif %}
                 <div class="form-group">
                     {% if biodata %}
-                        <a href="{{ url_for ('edit_biodata', id=data1.id) }}" class="btn btn-dark mb-1 mt-5 ml-3">Ubah Biodata</a>
+                        <a href="{{ url_for ('edit_biodata', id=data.id) }}" class="btn btn-dark mb-1 mt-5 ml-3">Ubah Biodata</a>
                     {% elif update %}
                         {{ form.simpan(class='btn btn-primary mb-1 mt-5', value='Simpan Perubahan') }}
+                        <a href="{{ url_for ('biodata', id=data.id) }}" class="btn btn-warning mb-1 mt-5 ml-3">Kembali</a>
                     {% else %}
                         {{ form.simpan(class='btn btn-primary mb-1 mt-5') }}
                     {% endif %}

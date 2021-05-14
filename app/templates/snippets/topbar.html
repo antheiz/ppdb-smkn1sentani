@@ -8,13 +8,8 @@
         <li class="nav-item dropdown no-arrow">
             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                {% if data1.jenis_kelamin == 'Laki-laki' %}
-                    <img class="img-profile rounded-circle" src="/static/img/foto-profil/man.png" style="max-width: 60px">
-                {% elif data1.jenis_kelamin == 'Perempuan'%}
-                    <img class="img-profile rounded-circle" src="/static/img/foto-profil/girl.png" style="max-width: 60px">
-                {% else %}
-                    <img class="img-profile rounded-circle" src="/static/img/foto-profil/user.png" style="max-width: 60px">
-                {% endif %}
+                
+                <img class="img-profile rounded-circle" src="/static/img/foto-profil/user.png" style="max-width: 60px">
                 <span class="ml-2 d-none d-lg-inline text-white small">{{ current_user.nama_lengkap }}</span>
             </a>
             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"

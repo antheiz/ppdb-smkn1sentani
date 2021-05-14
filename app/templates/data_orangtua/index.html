@@ -55,9 +55,9 @@
                       </thead>
                       <tbody>
                         <tr>
-                          <td>{{data2.nama_orangtua}}</td>
-                          <td>{{data2.no_telepon}}</td>
-                          <td>{{data2.alamat}}</td>
+                          <td>{{data.nama_orangtua}}</td>
+                          <td>{{data.no_telepon}}</td>
+                          <td>{{data.alamat}}</td>
                         </tr>
                       </tbody>
                     </table>
@@ -112,9 +112,10 @@
                 {% endif %}
                 <div class="form-group">
                     {% if orangtua %}
-                        <a href="{{ url_for ('edit_orangtua', id=data2.id) }}" class="btn btn-dark mb-1 mt-5 ml-3">Ubah Biodata</a>
+                        <a href="{{ url_for ('edit_orangtua', id=data.id) }}" class="btn btn-dark mb-1 mt-5 ml-3">Ubah Data</a>
                     {% elif update %}
                         {{ form.simpan(class='btn btn-primary mb-1 mt-5', value='Simpan Perubahan') }}
+                        <a href="{{ url_for ('orangtua', id=data.id) }}" class="btn btn-warning mb-1 mt-5 ml-3">Kembali</a>
                     {% else %}
                         {{ form.simpan(class='btn btn-primary mb-1 mt-5') }}
                     {% endif %}

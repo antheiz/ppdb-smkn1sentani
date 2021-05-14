@@ -12,7 +12,7 @@ class Pengguna(db.Model, UserMixin):
     email = db.Column(db.String(25), unique=True, nullable=False)
     # foto_profil = db.Column(db.String(30), nullable=False, default='defaults.png')
     kata_sandi = db.Column(db.Text, nullable=False)
-    biodatasiswa = db.relationship('Biodata', backref='author', lazy=True)
+    biodata = db.relationship('Biodata', backref='pengguna', lazy=True)
     orangtua = db.relationship('Orangtua', backref='pengguna', lazy=True)
 
 class Biodata(db.Model):
@@ -23,7 +23,7 @@ class Biodata(db.Model):
     asal_smp = db.Column(db.Text, nullable=False)
     kompetensi = db.Column(db.Text, nullable=False)
     status = db.Column(db.String(25), nullable=False)
-    nama_lengkap = db.Column(db.Integer, db.ForeignKey('pengguna.id'), nullable=False)
+    pengguna_id = db.Column(db.Integer, db.ForeignKey('pengguna.id'), nullable=False)
 
 class Orangtua(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -31,3 +31,10 @@ class Orangtua(db.Model):
     nama_orangtua = db.Column(db.String(25), nullable=False)
     alamat = db.Column(db.Text, nullable=False)
     pengguna_id = db.Column(db.Integer, db.ForeignKey('pengguna.id'), nullable=False)
+
+# {% if data.jenis_kelamin == 'Laki-laki' %}
+#                     <img class="img-profile rounded-circle" src="/static/img/foto-profil/man.png" style="max-width: 60px">
+#                 {% elif data.jenis_kelamin == 'Perempuan'%}
+#                     <img class="img-profile rounded-circle" src="/static/img/foto-profil/girl.png" style="max-width: 60px">
+#                 {% else %}
+#                 {% endif %}

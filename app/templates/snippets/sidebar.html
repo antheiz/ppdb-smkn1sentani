@@ -17,8 +17,8 @@
         Data Siswa
     </div>
     <li class="nav-item">
-        {% if data1.jenis_kelamin == 'Laki-laki' or data1.jenis_kelamin == 'Perempuan' %}
-        <a class="nav-link" href="{{url_for('biodata', id=data1.id)}}">
+        {% if current_user.biodata != [] %}
+        <a class="nav-link" href="{{url_for('biodata', id=data.id)}}">
             <i class="fas fa-user"></i>
             <span>Biodata</span>
             <i class="fas fa-check text-success"></i>
@@ -62,14 +62,14 @@
         {% endif %}
     </li> -->
     <li class="nav-item">
-        {% if data2.no_telepon != '' %}
-        <a class="nav-link" href="{{ url_for ('lengkapi_orangtua', id=data1.id)}}">
+        {% if current_user.orangtua != [] %}
+        <a class="nav-link" href="{{ url_for ('orangtua', id=data.id)}}">
             <i class="fas fa-user-circle"></i>
             <span>Orang Tua</span>
             <i class="fas fa-check text-success"></i>
         </a>
         {% else %}
-        <a class="nav-link" href="{{ url_for ('tambah_orangtua')}}">
+        <a class="nav-link" href="{{ url_for ('lengkapi_orangtua')}}">
             <i class="fas fa-user-circle"></i>
             <span>Orang Tua</span>
             <i class="fas fa-times text-danger"></i>
