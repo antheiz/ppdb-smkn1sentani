@@ -8,13 +8,13 @@ from flask_login import login_user, current_user, logout_user, login_required
 @login_required
 def home():
    # foto_profil = url_for('static', filename='img/foto-profil/' + current_user.foto_profil)
-   return render_template('index.html', title='PPDB', page='Dasbor', data=Biodata.query.get(current_user.id))
+   return render_template('index.html', title='PPDB', page='Dasbor'))
 
 @app.errorhandler(404)
 @login_required
 def page_not_found(e):
     # note that we set the 404 status explicitly
-    return render_template('error_page.html', title='Error', data=Biodata.query.get(current_user.id)), 404
+    return render_template('error_page.html', title='Error'), 404
 
 @app.route('/', methods=['GET','POST'])
 @app.route('/masuk', methods=['GET','POST'])
