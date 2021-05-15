@@ -170,3 +170,22 @@ def edit_orangtua(id):
 
 # Link Sidebar belum fix (kalau user 2 membuat data orangtua deluan, maka itu akan dibaca milik data user 1)
 # Perbaiki bagian link (kalau sudah tambah data, tidak boleh masuk halaman itu lagi, harus di redirect ke list data)
+
+
+
+
+
+
+# ADMIN DASHBOARD
+
+@app.route('/admin/dashboard/')
+def dashboard():
+   return render_template('admin.html', title='Admin Dashboard', page='Admin Dasbor' , data='d')
+
+@app.route('/siswa/')
+def siswa_biodata():
+   return render_template('admin/siswa.html', title="Data Siswa", page='Data Siswa', data='d')
+
+@app.route('/siswa/orangtua/')
+def orangtua_biodata():
+   return "Hello"
