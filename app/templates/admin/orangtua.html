@@ -27,28 +27,22 @@
                       <thead class="thead-light">
                         <tr>
                           <th>Nama Lengkap</th>
-                          <th>NISN</th>
-                          <th>Jenis Kelamin</th>
-                          <th>Agama</th>
-                          <th>Asal SMP</th>
-                          <th>Pilihan Kompetensi</th>
-                          <th>Status</th>
-                          <th>Orang Tua</th>
+                          <th>No.Handphone</th>
+                          <th>Alamat</th>
+                          <th>Nama Anak</th>
                         </tr>
                       </thead>
                       <tbody>
-                        {% for data in data %}
                         <tr>
-                          <td>{{data.pengguna.nama_lengkap}}</td>
-                          <td>{{data.nisn}}</td>
-                          <td>{{data.jenis_kelamin}}</td>
-                          <td>{{data.agama}}</td>
-                          <td>{{data.asal_smp}}</td>
-                          <td>{{data.kompetensi}}</td>
-                          <td>{{data.status}}</td>
-                          <td>{%for data in data.pengguna.orangtua %}{{data.nama_orangtua}}{%endfor%}</td>
+                          {% for data in data %}
+                          <tr>
+                            <td>{{data.nama_orangtua}}</td>
+                            <td>{{data.no_telepon}}</td>
+                            <td>{{data.alamat}}</td>
+                            <td>{{data.pengguna.nama_lengkap}}</td>
+                          </tr>
+                          {% endfor %}
                         </tr>
-                        {% endfor %}
                       </tbody>
                     </table>
                   </div>

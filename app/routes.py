@@ -8,7 +8,7 @@ from flask_login import login_user, current_user, logout_user, login_required
 @login_required
 def home():
    # foto_profil = url_for('static', filename='img/foto-profil/' + current_user.foto_profil)
-   return render_template('index.html', title='PPDB', page='Dasbor')
+   return render_template('index.html', title='PPDB', page='Dasbor', data=Pengguna.query.filter_by(id=current_user.id))
 
 @app.errorhandler(404)
 @login_required
@@ -24,10 +24,16 @@ def login():
    form = MasukAkunForm()
    if form.validate_on_submit():
         email = Pengguna.query.filter_by(email=form.email.data).first()
+        print(email)
         if email and bcrypt.check_password_hash(email.kata_sandi, form.kata_sandi.data):
             login_user(email, remember=form.remember.data)
-            next_page = request.args.get('next')
-            return redirect(next_page) if next_page else redirect(url_for('home'))
+            if email.email != 'admin@ppdb.smkn1sentani.sch.id':
+               next_page = request.args.get('next')
+               return redirect(next_page) if next_page else redirect(url_for('home'))
+            elif email.email == 'admin@ppdb.smkn1sentani.sch.id':
+               login_user(email, remember=form.remember.data)
+               next_page = request.args.get('next')
+               return redirect(next_page) if next_page else redirect(url_for('dashboard'))
         else:
             flash('Email atau kata sandi salah <br> Silahkan periksa kembali','danger')
    return render_template('login.html', title='Login', form=form)
@@ -54,7 +60,7 @@ def logout():
 
 
 # Biodata Calon Siswa
-@app.route('/biodata/', methods=['GET','POST'])
+@app.route('/data/siswa/', methods=['GET','POST'])
 @login_required
 def lengkapi_biodata():
    form = BiodataSiswaForm(nama_lengkap = current_user.nama_lengkap)
@@ -69,7 +75,7 @@ def lengkapi_biodata():
    return render_template('data_siswa/biodata.html', title='Lengkapi Biodata', page='Biodata', form=form
                      , data=Biodata.query.get(current_user.id))
 
-@app.route('/biodata/<id>/edit/', methods=['GET','POST'])
+@app.route('/data/siswa/<id>/edit/', methods=['GET','POST'])
 @login_required
 def edit_biodata(id):
    data = Biodata.query.get_or_404(id)
@@ -99,7 +105,7 @@ def edit_biodata(id):
                   form=form, data=data, update='update')
 
 
-@app.route('/biodata/<id>/', methods=['GET','POST'])
+@app.route('/data/siswa/<id>/', methods=['GET','POST'])
 @login_required
 def biodata(id):
    data = Biodata.query.get_or_404(id)
@@ -178,14 +184,20 @@ def edit_orangtua(id):
 
 # ADMIN DASHBOARD
 
-@app.route('/admin/dashboard/')
+@app.route('/admin/')
+@login_required
 def dashboard():
-   return render_template('admin.html', title='Admin Dashboard', page='Admin Dasbor' , data='d')
+   if current_user.email != "admin@ppdb.smkn1sentani.sch.id":
+        return redirect(url_for('home'))
+   return render_template('admin.html', title='Admin Dashboard', page='Admin Dasbor' , 
+                        biodata=Biodata.query.count(), pengguna=Pengguna.query.all())
 
-@app.route('/siswa/')
+@app.route('/admin/siswa/')
+@login_required
 def siswa_biodata():
-   return render_template('admin/siswa.html', title="Data Siswa", page='Data Siswa', data='d')
+   return render_template('admin/siswa.html', title="Data Siswa", page='Data Siswa', data=Biodata.query.all())
 
-@app.route('/siswa/orangtua/')
+@app.route('/admin/orangtua/')
+@login_required
 def orangtua_biodata():
-   return "Hello"
+   return render_template('admin/orangtua.html', title="Data Orangtua", page='Data Orangtua', data=Orangtua.query.all())

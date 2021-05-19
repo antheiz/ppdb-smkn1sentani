@@ -24,6 +24,7 @@ class Biodata(db.Model):
     kompetensi = db.Column(db.Text, nullable=False)
     status = db.Column(db.String(25), nullable=False)
     pengguna_id = db.Column(db.Integer, db.ForeignKey('pengguna.id'), nullable=False)
+    
 
 class Orangtua(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -31,10 +32,3 @@ class Orangtua(db.Model):
     nama_orangtua = db.Column(db.String(25), nullable=False)
     alamat = db.Column(db.Text, nullable=False)
     pengguna_id = db.Column(db.Integer, db.ForeignKey('pengguna.id'), nullable=False)
-
-# {% if data.jenis_kelamin == 'Laki-laki' %}
-#                     <img class="img-profile rounded-circle" src="/static/img/foto-profil/man.png" style="max-width: 60px">
-#                 {% elif data.jenis_kelamin == 'Perempuan'%}
-#                     <img class="img-profile rounded-circle" src="/static/img/foto-profil/girl.png" style="max-width: 60px">
-#                 {% else %}
-#                 {% endif %}

@@ -7,6 +7,7 @@ app = Flask(__name__)
 app.secret_key = 'ioafhwa97e9032iakdnwi'
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///ppdb.sqlite'
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///ppdbs.sqlite'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 db  = SQLAlchemy(app)
 

@@ -32,7 +32,10 @@
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
                         <h1 class="h3 mb-0 text-gray-800">{{ page }}</h1>
                         <ol class="breadcrumb">
-                            {% if page != 'Dasbor' %}
+                            {% if page != 'Dasbor' and current_user.email == 'admin@ppdb.smkn1sentani.sch.id' %}
+                                <li class="breadcrumb-item"><a href="{{ url_for ('dashboard') }}">Dasbor</a></li>
+                                <li class="breadcrumb-item active" aria-current="page">{{ page }}</li>
+                            {% elif page != 'Dasbor' %}
                                 <li class="breadcrumb-item"><a href="{{ url_for ('home') }}">Dasbor</a></li>
                                 <li class="breadcrumb-item active" aria-current="page">{{ page }}</li>
                             {% else %}
