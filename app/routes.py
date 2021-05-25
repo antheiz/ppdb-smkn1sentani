@@ -190,7 +190,7 @@ def dashboard():
    if current_user.email != "admin@ppdb.smkn1sentani.sch.id":
         return redirect(url_for('home'))
    return render_template('admin.html', title='Admin Dashboard', page='Admin Dasbor' , 
-                        biodata=Biodata.query.count(), pengguna=Pengguna.query.all())
+                        biodata=Biodata.query.count(), pengguna=Pengguna.query.order_by('id'))
 
 @app.route('/admin/siswa/')
 @login_required
