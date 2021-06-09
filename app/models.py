@@ -28,7 +28,9 @@ class Biodata(db.Model):
 
 class Orangtua(db.Model):
     id = db.Column(db.Integer, primary_key=True)
+    ibu = db.Column(db.String(25), nullable=False, default='Tidak ada')
+    ayah = db.Column(db.String(25), nullable=False, default='Tidak ada')
+    wali = db.Column(db.String(25), nullable=False, default='Tidak ada')
     no_telepon = db.Column(db.Integer, nullable=False)
-    nama_orangtua = db.Column(db.String(25), nullable=False)
     alamat = db.Column(db.Text, nullable=False)
     pengguna_id = db.Column(db.Integer, db.ForeignKey('pengguna.id'), nullable=False)

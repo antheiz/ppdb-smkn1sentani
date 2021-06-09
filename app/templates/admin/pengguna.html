@@ -35,41 +35,33 @@
       {% endfor %}
     {% endif %}
     {% endwith %}
-
+    
     <div class="card-body">
       <form method="POST">
         <div class="table-responsive">
           <table class="table align-items-center table-flush">
             <thead class="thead-light">
               <tr>
-                <th>Ayah</th>
-                <th>Ibu</th>
-                <th>Wali</th>
-                <th>No.Handphone</th>
-                <th>Alamat</th>
-                <th>Nama Anak</th>
+                <th>Nama Lengkap</th>
+                <th>Email</th>
                 <th>Aksi</th>
               </tr>
             </thead>
             <tbody>
-              <tr>
-                {% for data in data %}
-              <tr>
-                <td>{{data.ayah}}</td>
-                <td>{{data.ibu}}</td>
-                <td>{{data.wali}}</td>
-                <td>{{data.no_telepon}}</td>
-                <td>{{data.alamat}}</td>
-                <td>{{data.pengguna.nama_lengkap}}</td>
-                <td>
-                  <!-- <i class="fas fa-edit"></i> -->
-                  <a href="javascript:void(0);" data-toggle="modal" data-target="#delete{{data.id}}">
-                    <i class="fas fa-trash text-danger"></i>
-                  </a>
-                </td>
-              </tr>
+              {% for data in data %}
+                {% if data.email != 'admin@ppdb.smkn1sentani.sch.id' %}
+                <tr>
+                  <td>{{data.nama_lengkap}}</td>
+                  <td>{{data.email}}</td>
+                  <td>
+                    <!-- <i class="fas fa-edit"></i> -->
+                    <a href="javascript:void(0);" data-toggle="modal" data-target="#delete{{data.id}}">
+                      <i class="fas fa-trash text-danger"></i>
+                    </a>
+                  </td>
+                </tr>
+                {% endif %}
               {% endfor %}
-              </tr>
             </tbody>
           </table>
         </div>
@@ -80,26 +72,26 @@
 </div>
 
 {% for data in data %}
-<div class="modal fade" id="delete{{data.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabelLogout"
-  aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabelLogout">Peringatan!</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <p>Apakah anda yakin akan menghapus <br> data orangtua atas nama <b>{%for data in data.pengguna.orangtua %}{{data.nama_orangtua}}{%endfor%}</b> ?</p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Batal</button>
-        <a href="{{ url_for('orangtua_biodata_delete', id=data.id) }}" class="btn btn-danger">Hapus</a>
+  <div class="modal fade" id="delete{{data.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabelLogout"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabelLogout">Peringatan!</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p>Apakah anda yakin akan menghapus <br> akun pengguna atas nama <b>{{data.nama_lengkap}}</b> ?</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Batal</button>
+          <a href="{{ url_for('akun_pengguna_delete', id=data.id) }}" class="btn btn-danger">Hapus</a>
+        </div>
       </div>
     </div>
   </div>
-</div>
 {% endfor %}
 {% endblock %}
 

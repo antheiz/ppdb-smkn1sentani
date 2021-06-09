@@ -2,67 +2,111 @@
 
 {% block styles %}
 <link href="{{ url_for('static', filename='vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet"
-    type="text/css">
+  type="text/css">
 <link href="{{ url_for('static', filename='vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet"
-    type="text/css">
+  type="text/css">
 <link href="{{ url_for('static', filename='css/ruang-admin.min.css') }}" rel="stylesheet">
 <style>
-    ul { 
-        list-style-type: none; 
-        padding: 0;
-        margin: 0;
-    }
+  ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+  }
 </style>
 {% endblock %}
 
 
 {% block content %}
 <div class="col-lg-12">
-    <!-- General Element -->
-    <div>
-        <div class="card-body">
-            <form method="POST">
-                <div class="table-responsive">
-                    <table class="table align-items-center table-flush">
-                      <thead class="thead-light">
-                        <tr>
-                          <th>Nama Lengkap</th>
-                          <th>NISN</th>
-                          <th>Jenis Kelamin</th>
-                          <th>Agama</th>
-                          <th>Asal SMP</th>
-                          <th>Pilihan Kompetensi</th>
-                          <th>Status</th>
-                          <th>Orang Tua</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {% for data in data %}
-                        <tr>
-                          <td>{{data.pengguna.nama_lengkap}}</td>
-                          <td>{{data.nisn}}</td>
-                          <td>{{data.jenis_kelamin}}</td>
-                          <td>{{data.agama}}</td>
-                          <td>{{data.asal_smp}}</td>
-                          <td>{{data.kompetensi}}</td>
-                          <td>{{data.status}}</td>
-                          <td>{%for data in data.pengguna.orangtua %}{{data.nama_orangtua}}{%endfor%}</td>
-                        </tr>
-                        {% endfor %}
-                      </tbody>
-                    </table>
-                  </div>
-                  <div class="card-footer"></div>
-                </div>
-            </form>
+  <!-- General Element -->
+  
+  <div>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      {% for category, message in messages %}
+      <div class="card-header d-flex justify-content-end">
+        <div class="alert alert-{{category}}">
+          <b>{{ message|safe }}</b>
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span class="ml-2" aria-hidden="true">×</span>
+          </button>
         </div>
+      </div>
+      {% endfor %}
+    {% endif %}
+    {% endwith %}
+    
+    <div class="card-body">
+      <form method="POST">
+        <div class="table-responsive">
+          <table class="table align-items-center table-flush">
+            <thead class="thead-light">
+              <tr>
+                <th>Nama Lengkap</th>
+                <th>NISN</th>
+                <th>Jenis Kelamin</th>
+                <th>Agama</th>
+                <th>Asal SMP</th>
+                <th>Pilihan Kompetensi</th>
+                <th>Status</th>
+                <th>Aksi</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for data in data %}
+              <tr>
+                <td>{{data.pengguna.nama_lengkap}}</td>
+                <td>{{data.nisn}}</td>
+                <td>{{data.jenis_kelamin}}</td>
+                <td>{{data.agama}}</td>
+                <td>{{data.asal_smp}}</td>
+                <td>{{data.kompetensi}}</td>
+                <td>{{data.status}}</td>
+                <td>
+                  <!-- <i class="fas fa-edit"></i> -->
+                  <a href="javascript:void(0);" data-toggle="modal" data-target="#delete{{data.id}}">
+                    <i class="fas fa-trash text-danger"></i>
+                  </a>
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        <div class="card-footer"></div>
     </div>
-    {% endblock %}
+    </form>
+  </div>
+</div>
+
+{% for data in data %}
+  <div class="modal fade" id="delete{{data.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabelLogout"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabelLogout">Peringatan!</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p>Apakah anda yakin akan menghapus <br> data siswa atas nama <b>{{data.pengguna.nama_lengkap}}</b> ?</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Batal</button>
+          <a href="{{ url_for('siswa_biodata_delete', id=data.id) }}" class="btn btn-danger">Hapus</a>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endfor %}
+{% endblock %}
 
 
-    {% block scripts %}
-    <script src="{{ url_for('static', filename='vendor/jquery/jquery.min.js') }}"></script>
-    <script src="{{ url_for('static', filename='vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-    <script src="{{ url_for('static', filename='vendor/jquery-easing/jquery.easing.min.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/ruang-admin.min.js') }}"></script>
-    {% endblock %}
+{% block scripts %}
+<script src="{{ url_for('static', filename='vendor/jquery/jquery.min.js') }}"></script>
+<script src="{{ url_for('static', filename='vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+<script src="{{ url_for('static', filename='vendor/jquery-easing/jquery.easing.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/ruang-admin.min.js') }}"></script>
+{% endblock %}

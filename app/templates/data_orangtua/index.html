@@ -7,8 +7,8 @@
     type="text/css">
 <link href="{{ url_for('static', filename='css/ruang-admin.min.css') }}" rel="stylesheet">
 <style>
-    ul { 
-        list-style-type: none; 
+    ul {
+        list-style-type: none;
         padding: 0;
         margin: 0;
     }
@@ -22,22 +22,22 @@
     <div class="card mb-4">
         <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
             {% if orangtua %}
-                <h6 class="m-0 font-weight-bold text-primary">Data Orangtua</h6>
+            <h6 class="m-0 font-weight-bold text-primary">Data Orangtua/Wali</h6>
             {% elif update %}
-                <h6 class="m-0 font-weight-bold text-primary">Ubah Data Orangtua</h6>
+            <h6 class="m-0 font-weight-bold text-primary">Ubah Data Orangtua/Wali</h6>
             {% else %}
-                <h6 class="m-0 font-weight-bold text-primary">Lengkapi Data Orangtua</h6>
+            <h6 class="m-0 font-weight-bold text-primary">Lengkapi Data Orangtua/Wali</h6>
             {% endif %}
             {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
-              {% for category, message in messages %}
-                <div class="alert alert-{{ category }}">
-                  <b>{{ message|safe }}</b>
+            {% for category, message in messages %}
+            <div class="alert alert-{{ category }}">
+                <b>{{ message|safe }}</b>
                 <button type="button" class="close text-right ml-2" data-dismiss="alert" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
-                </div>
-              {% endfor %}
+            </div>
+            {% endfor %}
             {% endif %}
             {% endwith %}
         </div>
@@ -46,89 +46,133 @@
                 {% if orangtua %}
                 <div class="table-responsive">
                     <table class="table align-items-center table-flush">
-                      <thead class="thead-light">
-                        <tr>
-                          <th>Nama Orangtua</th>
-                          <th>No.Handphone</th>
-                          <th>Alamat</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <td>{{data.nama_orangtua}}</td>
-                          <td>{{data.no_telepon}}</td>
-                          <td>{{data.alamat}}</td>
-                        </tr>
-                      </tbody>
+                        <thead class="thead-light">
+                            <tr>
+                                {% for user in current_user.orangtua %}
+                                    {% if user.ayah != '' %}
+                                        <th>Ayah</th>
+                                        <th>Ibu</th>
+                                    {% elif user.wali != '' %}
+                                        <th>Wali</th>
+                                    {% endif %}
+                                {% endfor %}
+                                <th>No.Handphone</th>
+                                <th>Alamat</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                {% for user in current_user.orangtua %}
+                                    {% if user.ayah != '' %}
+                                        <td>{{data.ayah}}</td>
+                                        <td>{{data.ibu}}</td>
+                                    {% elif user.wali != '' %}
+                                        <td>{{data.wali}}</td>
+                                    {% endif %}
+                                {% endfor %}
+                                <td>{{data.no_telepon}}</td>
+                                <td>{{data.alamat}}</td>
+                            </tr>
+                        </tbody>
                     </table>
-                  </div>
-                  <div class="card-footer"></div>
                 </div>
-                {% else %}
-                    {{ form.hidden_tag() }}
-                    <div class="form-group">
-                        <b><label for="exampleFormControlInput1">Nama Orangtua</label></b>
-                        {% if form.nama_orangtua.errors %}
-                            {{ form.nama_orangtua(class='form-control is-invalid input_user', id='exampleFormControlInput1', placeholder='Masukan nama Orangtua', autocomplete='off')}}
-                            <div class="text-center invalid-feedback">
-                                {% for error in form.nama_orangtua.errors %}
-                                    {{error}}
-                                {% endfor %}
-                            </div>
-                        {% else %}
-                            {{ form.nama_orangtua(class='form-control input_user', id='exampleFormControlInput1', placeholder='Masukan nama Orangtua', autocomplete='off')}}
-                        {% endif %}
-                    </div>
-                    <div class="form-group">
-                        <b><label for="exampleFormControlInput1">No. Handphone</label></b>
-                        {% if form.no_telepon.errors %}
-                            {{ form.no_telepon(class='form-control is-invalid input_user', id='exampleFormControlInput1', placeholder='Masukan No.Handphone', autocomplete='off') }}
-                            <div class="text-center invalid-feedback">
-                                {% for error in form.no_telepon.errors %}
-                                    {{error}}
-                                {% endfor %}
-                            </div>
-                        {% elif update %}
-                            {{ form.no_telepon(class='form-control input_user', id='exampleFormControlInput1', placeholder='Masukan No.Handphone', autocomplete='off') }}
-                        {% else %} 
-                            {{ form.no_telepon(class='form-control input_user', id='exampleFormControlInput1', placeholder='Masukan No.Handphone', autocomplete='off') }}   
-                        {% endif %}
-                    </div>
-                    <div class="form-group">
-                        <b><label for="exampleFormControlInput1">Alamat</label></b>
-                        {% if form.alamat.errors %}
-                            {{ form.alamat(class='form-control is-invalid input_user', id='exampleFormControlInput1', placeholder='Masukan alamat Orangtua', autocomplete='off') }}
-                            <div class="text-center invalid-feedback">
-                                {% for error in form.alamat.errors %}
-                                    {{error}}
-                                {% endfor %}
-                            </div>
-                        {% elif update %}
-                            {{ form.alamat(class='form-control input_user', id='exampleFormControlInput1', placeholder='Masukan alamat Orangtua', autocomplete='off') }}
-                        {% else %} 
-                            {{ form.alamat(class='form-control input_user', id='exampleFormControlInput1', placeholder='Masukan alamat Orangtua', autocomplete='off') }}   
-                        {% endif %}
-                    </div>
-                {% endif %}
-                <div class="form-group">
-                    {% if orangtua %}
-                        <a href="{{ url_for ('edit_orangtua', id=data.id) }}" class="btn btn-dark mb-1 mt-5 ml-3">Ubah Data</a>
-                    {% elif update %}
-                        {{ form.simpan(class='btn btn-primary mb-1 mt-5', value='Simpan Perubahan') }}
-                        <a href="{{ url_for ('orangtua', id=data.id) }}" class="btn btn-warning mb-1 mt-5 ml-3">Kembali</a>
-                    {% else %}
-                        {{ form.simpan(class='btn btn-primary mb-1 mt-5') }}
-                    {% endif %}
-                </div>
-            </form>
+                <div class="card-footer"></div>
         </div>
+        {% else %}
+        {{ form.hidden_tag() }}
+        <div class="form-group">
+            <b><label for="exampleFormControlInput1">Ayah</label></b>
+            {% if form.ayah.errors %}
+            {{ form.ayah(class='form-control is-invalid input_user', id='exampleFormControlInput1', placeholder='Masukan
+            nama Ayah', autocomplete='off')}}
+            <div class="text-center invalid-feedback">
+                {% for error in form.ayah.errors %}
+                {{error}}
+                {% endfor %}
+            </div>
+            {% else %}
+            {{ form.ayah(class='form-control input_user', id='exampleFormControlInput1', placeholder='Masukan nama Ayah', autocomplete='off')}}
+            {% endif %}
+        </div>
+        <div class="form-group">
+            <b><label for="exampleFormControlInput1">Ibu</label></b>
+            {% if form.ibu.errors %}
+            {{ form.ibu(class='form-control is-invalid input_user', id='exampleFormControlInput1', placeholder='Masukan nama Ibu', autocomplete='off')}}
+            <div class="text-center invalid-feedback">
+                {% for error in form.ibu.errors %}
+                {{error}}
+                {% endfor %}
+            </div>
+            {% else %}
+            {{ form.ibu(class='form-control input_user', id='exampleFormControlInput1', placeholder='Masukan nama Ibu',
+            autocomplete='off')}}
+            {% endif %}
+        </div>
+        <div class="form-group">
+            <b><label for="exampleFormControlInput1">Wali <i>(Jika ada)</i></label></b>
+            {% if form.wali.errors %}
+            {{ form.wali(class='form-control is-invalid input_user', id='exampleFormControlInput1', placeholder='Masukan nama Wali', autocomplete='off')}}
+            <div class="text-center invalid-feedback">
+                {% for error in form.wali.errors %}
+                {{error}}
+                {% endfor %}
+            </div>
+            {% else %}
+            {{ form.wali(class='form-control input_user', id='exampleFormControlInput1', placeholder='Masukan nama Wali', autocomplete='off')}}
+            {% endif %}
+        </div>
+        <div class="form-group">
+            <b><label for="exampleFormControlInput1">No. Handphone</label></b>
+            {% if form.no_telepon.errors %}
+            {{ form.no_telepon(class='form-control is-invalid input_user', id='exampleFormControlInput1',
+            placeholder='Masukan No.Handphone', autocomplete='off') }}
+            <div class="text-center invalid-feedback">
+                {% for error in form.no_telepon.errors %}
+                {{error}}
+                {% endfor %}
+            </div>
+            {% elif update %}
+            {{ form.no_telepon(class='form-control input_user', id='exampleFormControlInput1', placeholder='Masukan No.Handphone', autocomplete='off') }}
+            {% else %}
+            {{ form.no_telepon(class='form-control input_user', id='exampleFormControlInput1', placeholder='Masukan No.Handphone', autocomplete='off') }}
+            {% endif %}
+        </div>
+        <div class="form-group">
+            <b><label for="exampleFormControlInput1">Alamat</label></b>
+            {% if form.alamat.errors %}
+            {{ form.alamat(class='form-control is-invalid input_user', id='exampleFormControlInput1',
+            placeholder='Masukan alamat Orangtua', autocomplete='off') }}
+            <div class="text-center invalid-feedback">
+                {% for error in form.alamat.errors %}
+                {{error}}
+                {% endfor %}
+            </div>
+            {% elif update %}
+            {{ form.alamat(class='form-control input_user', id='exampleFormControlInput1', placeholder='Masukan alamat Orangtua', autocomplete='off') }}
+            {% else %}
+            {{ form.alamat(class='form-control input_user', id='exampleFormControlInput1', placeholder='Masukan alamat Orangtua', autocomplete='off') }}
+            {% endif %}
+        </div>
+        {% endif %}
+        <div class="form-group">
+            {% if orangtua %}
+            <a href="{{ url_for ('edit_orangtua', id=data.id) }}" class="btn btn-dark mb-1 mt-5 ml-3">Ubah Data</a>
+            {% elif update %}
+            {{ form.simpan(class='btn btn-primary mb-1 mt-5', value='Simpan Perubahan') }}
+            <a href="{{ url_for ('orangtua', id=data.id) }}" class="btn btn-warning mb-1 mt-5 ml-3">Kembali</a>
+            {% else %}
+            {{ form.simpan(class='btn btn-primary mb-1 mt-5') }}
+            {% endif %}
+        </div>
+        </form>
     </div>
-    {% endblock %}
+</div>
+{% endblock %}
 
 
-    {% block scripts %}
-    <script src="{{ url_for('static', filename='vendor/jquery/jquery.min.js') }}"></script>
-    <script src="{{ url_for('static', filename='vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-    <script src="{{ url_for('static', filename='vendor/jquery-easing/jquery.easing.min.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/ruang-admin.min.js') }}"></script>
-    {% endblock %}
+{% block scripts %}
+<script src="{{ url_for('static', filename='vendor/jquery/jquery.min.js') }}"></script>
+<script src="{{ url_for('static', filename='vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+<script src="{{ url_for('static', filename='vendor/jquery-easing/jquery.easing.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/ruang-admin.min.js') }}"></script>
+{% endblock %}

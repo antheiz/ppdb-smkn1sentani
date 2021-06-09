@@ -8,7 +8,7 @@ from flask_login import login_user, current_user, logout_user, login_required
 @login_required
 def home():
    # foto_profil = url_for('static', filename='img/foto-profil/' + current_user.foto_profil)
-   return render_template('index.html', title='PPDB', page='Dasbor', data=Pengguna.query.filter_by(id=current_user.id))
+   return render_template('index.html', title='PPDB', page='Dashboard', data=Biodata.query.get(current_user.id))
 
 @app.errorhandler(404)
 @login_required
@@ -130,7 +130,8 @@ def biodata(id):
 def lengkapi_orangtua():
    form = DataOrangtuaForm()
    if form.validate_on_submit():
-      orangtua = Orangtua(no_telepon=form.no_telepon.data, nama_orangtua=form.nama_orangtua.data, 
+      orangtua = Orangtua(no_telepon=form.no_telepon.data, ayah=form.ayah.data, 
+                     ibu=form.ibu.data, wali=form.wali.data, 
                      alamat=form.alamat.data, pengguna=current_user)
       db.session.add(orangtua)
       db.session.commit()
@@ -147,7 +148,9 @@ def orangtua(id):
       abort(404)
    form = DataOrangtuaForm()
    form.no_telepon.data = data.no_telepon
-   form.nama_orangtua.data = data.nama_orangtua
+   form.ayah.data = data.ayah
+   form.ibu.data = data.ibu
+   form.wali.data = data.wali
    form.alamat.data = data.alamat  
    return render_template('data_orangtua/index.html', title='Orangtua', page='Orangtua', 
                   form=form, data=data, orangtua='orangtua')
@@ -161,14 +164,18 @@ def edit_orangtua(id):
       form = DataOrangtuaForm()
       if form.validate_on_submit():
          data.no_telepon = form.no_telepon.data 
-         data.nama_orangtua = form.nama_orangtua.data    
+         data.ayah = form.ayah.data  
+         data.ibu = form.ibu.data  
+         data.wali = form.wali.data    
          data.alamat = form.alamat.data  
          db.session.commit()
          flash('Data orangtua berhasil diupdate','success')
-         return redirect(url_for('lengkapi_orangtua', id=data.id))
+         return redirect(url_for('orangtua', id=data.id))
       else:
          form.no_telepon.data = data.no_telepon
-         form.nama_orangtua.data = data.nama_orangtua
+         form.ayah.data = data.ayah
+         form.ibu.data = data.ibu
+         form.wali.data = data.wali
          form.alamat.data = data.alamat  
       return render_template('data_orangtua/index.html', title='Orangtua', page='Orangtua', 
                      form=form, data=data, update='update')
@@ -197,7 +204,44 @@ def dashboard():
 def siswa_biodata():
    return render_template('admin/siswa.html', title="Data Siswa", page='Data Siswa', data=Biodata.query.all())
 
+
+@app.route('/admin/siswa/<int:id>/')
+@login_required
+def siswa_biodata_delete(id):
+   data = Biodata.query.get_or_404(id)
+   db.session.delete(data)
+   db.session.commit()
+   flash('Data siswa berhasil dihapus.','danger')
+   return redirect(url_for('siswa_biodata'))
+
+
 @app.route('/admin/orangtua/')
 @login_required
 def orangtua_biodata():
    return render_template('admin/orangtua.html', title="Data Orangtua", page='Data Orangtua', data=Orangtua.query.all())
+
+
+@app.route('/admin/orangtua/<int:id>/')
+@login_required
+def orangtua_biodata_delete(id):
+   data = Orangtua.query.get_or_404(id)
+   db.session.delete(data)
+   db.session.commit()
+   flash('Data orangtua berhasil dihapus.','danger')
+   return redirect(url_for('orangtua_biodata'))
+
+
+@app.route('/admin/pengguna/')
+@login_required
+def akun_pengguna():
+   return render_template('admin/pengguna.html', title="Data Akun Pengguna", page='Data Akun Pengguna', data=Pengguna.query.all())
+
+
+@app.route('/admin/pengguna/<int:id>/')
+@login_required
+def akun_pengguna_delete(id):
+   data = Pengguna.query.get_or_404(id)
+   db.session.delete(data)
+   db.session.commit()
+   flash('Data akun pengguna berhasil dihapus.','danger')
+   return redirect(url_for('akun_pengguna'))

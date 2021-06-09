@@ -71,7 +71,9 @@ class BiodataSiswaForm(FlaskForm):
     simpan = SubmitField('Simpan')
 
 class DataOrangtuaForm(FlaskForm):
-    nama_orangtua = StringField('nama_orangtua', validators=[DataRequired(), Length(max=25, message='Nama lengkap tidak sesuai, Silahkan periksa kembali')])
+    ibu = StringField('Nama Ayah', validators=[Length(max=25, message='Nama Ibu tidak sesuai, Silahkan periksa kembali')])
+    ayah = StringField('Nama Ibu', validators=[Length(max=25, message='Nama Ayah tidak sesuai, Silahkan periksa kembali')])
+    wali = StringField('Nama Wali', validators=[Length(max=25, message='Nama Wali tidak sesuai, Silahkan periksa kembali')])
     no_telepon = StringField('nisn', validators=[DataRequired(), Length(min=12, message='No. Telepon tidak sesuai. Minimal 12 angka, silahkan periksa kembali')])
     alamat = TextField('nisn', validators=[DataRequired(), Length(max=50, message='Alamat tidak sesuai. silahkan periksa kembali')])
     simpan = SubmitField('Simpan')
